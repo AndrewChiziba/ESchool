@@ -88,11 +88,9 @@ namespace ESchool.Controllers
                     await CreateBlankQuestion(model,i+1);
                 }
 
-                var listExercises = _context.Questions.Where(question => question.Topic == model.Topic).ToList();
+                var listQuestions = _context.Questions.Where(question => question.Topic == model.Topic).ToList();
 
-                var newExercise = new Exercise { Topic = model.Topic, NumberOfQuestions = model.NumberOfQuestions, Questions = listExercises };
-
-
+                var newExercise = new Exercise { Topic = model.Topic, NumberOfQuestions = model.NumberOfQuestions, Questions = listQuestions };
 
                 _context.Add(newExercise);
                 await _context.SaveChangesAsync();
@@ -218,6 +216,65 @@ namespace ESchool.Controllers
             else
                 return View("Failed to create");
         }
+
+
+        // GET: Exercises/Edit/5
+        public async Task<IActionResult> WExercise(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var exercise = await _context.Exercises.FindAsync(id);
+            //List<Question> questionlist = new List<Question>();
+            List<Question> questionList = _context.Questions.Where(topic => topic.Topic == exercise.Topic).ToList();
+
+            if (questionList == null)
+            {
+                return NotFound();
+            }
+            return View(questionList);
+        }
+
+        // POST: Exercises/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> WExercise(int id, List<Question> questions)
+        {
+            var exercise = await _context.Exercises.FindAsync(id);
+            
+            if (id != exercise.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+
+                    _context.Update(exercise);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ExerciseExists(exercise.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(exercise);
+        }
+
+
+
 
         /*Custom Methods end*/
 

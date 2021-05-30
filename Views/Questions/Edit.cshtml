@@ -1,4 +1,4 @@
-﻿@model ESchool.Models.MultipleChoice.MultipleChoiceQuestion
+﻿@model ESchool.Models.WordExercise.Question
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,13 +6,12 @@
 
 <h1>Edit</h1>
 
-<h4>MultipleChoiceQuestion</h4>
+<h4>Question</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Topic" class="control-label"></label>
@@ -28,26 +27,6 @@
                 <label asp-for="Questiion" class="control-label"></label>
                 <input asp-for="Questiion" class="form-control" />
                 <span asp-validation-for="Questiion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="choiceA" class="control-label"></label>
-                <input asp-for="choiceA" class="form-control" />
-                <span asp-validation-for="choiceA" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="choiceB" class="control-label"></label>
-                <input asp-for="choiceB" class="form-control" />
-                <span asp-validation-for="choiceB" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="choiceC" class="control-label"></label>
-                <input asp-for="choiceC" class="form-control" />
-                <span asp-validation-for="choiceC" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="choiceD" class="control-label"></label>
-                <input asp-for="choiceD" class="form-control" />
-                <span asp-validation-for="choiceD" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Answer" class="control-label"></label>

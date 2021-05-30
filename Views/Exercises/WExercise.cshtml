@@ -1,12 +1,20 @@
-﻿@model ESchool.Models.WordExercise.QuestionsEdit
-@using (Html.BeginForm("DoExercise", "Exercises", FormMethod.Post))
-{
-    <h2>Переведите следующие слова</h2>
-    @Html.EditorFor(x => x.Questions)
-    @*<input type="submit" value="Save" />*@
+﻿@using ESchool.Models.WordExercise
+@model List<Question>
 
-}
-<button type="button" id="examButton" class="btn-success" onclick="displayResults()">Submit</button>
+<form asp-controller="Exercises" asp-action="WExercise" method="post">
+    <table>
+        <tr> <th>Name</th> <th>Is Done</th> </tr>
+
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <tr>
+                @Html.EditorFor(model => model[i])
+            </tr>
+        }
+
+    </table>
+    <button type="button" id="examButton" class="btn-success" onclick="displayResults()">Submit</button>
+</form>
 
 <label id="pickedAnswers"></label>
 

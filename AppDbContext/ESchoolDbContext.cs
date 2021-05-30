@@ -32,7 +32,10 @@ namespace ESchool.AppDbContext
 
         public DbSet<Question> Questions { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
+
         public DbSet<MultipleChoiceQuestion> MultipleChoiceQuestions { get; set; }
+        public DbSet<MultipleChoiceExercise> MultipleChoiceExercises { get; set; }
+
         public DbSet<Result> Results { get; set; }
         
 

@@ -2,80 +2,87 @@
 @using ESchool.Helpers
 
 
-<table class="table">
-    <tbody>
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+   
         @Html.HiddenFor(m => m.Id)
-        <tr>
-            <td>
-                @Html.DisplayFor(m => m.QuestionNumber). )  @Html.DisplayFor(m => m.Questiion)
-            </td>
-            <td>
+
+    <td>
+        @Html.DisplayFor(m => m.QuestionNumber) )@Html.DisplayFor(m => m.Questiion) @Html.DisplayFor(m => m.Score)
+
+
+
+
+        @*<label id="correctans" name="@Html.DisplayFor(m => m.Id)" class="rb" style="display:none; color:forestgreen;"><b>@Html.DisplayFor(m => m.Answer)</b></label>*@
+    </td>
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div>
+    <div>
+        @Html.HiddenFor(m => m.Id)
+        <div class="row">
+
+            <div class="col-md-5">
+                @Html.DisplayFor(m => m.QuestionNumber).)@Html.DisplayFor(m => m.Questiion)
+
                 @if (User.IsInRole(Roles.Admin))
                 {
-                    @Html.EditorFor(m => m.Questiion)
+                    @Html.TextBoxFor(m => m.Questiion)
                 }
-            </td>
-            <td>
-                @Html.DisplayFor(m => m.Answer)
-                @Html.EditorFor(m => m.Answer)
-            </td>
-            <td>
+            </div>
+            <div class="col-md-5">
+                @*@Html.DisplayFor(m => m.Answer)*@
+                <div class="form-group">
+
+                    <input asp-for="Answer" class="form-control" />
+                    <span asp-validation-for="Answer" class="text-danger"></span>
+                </div>
+
+            </div>
+            <div class="col-md-2">
                 @Html.DisplayFor(m => m.Score)
 
                 @if (User.IsInRole(Roles.Admin))
                 {
-                    @Html.EditorFor(m => m.Score)
+                    @Html.TextBoxFor(m => m.Score)
                 }
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label id="correctans" name="@Html.HiddenFor(m => m.Id)" class="rb" style="display:none; color:forestgreen;"><b>@Html.DisplayFor(m => m.Answer)</b></label>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-@*<div>
-        <div>
-            @Html.HiddenFor(m => m.Id)
-            <div class="row">
-
-                <div class="col-md-5">
-                    @Html.DisplayFor(m => m.QuestionNumber).)
-
-                    @Html.DisplayFor(m => m.Questiion)
-
-                    @if (User.IsInRole(Roles.Admin))
-                    {
-                        @Html.EditorFor(m => m.Questiion)
-                    }
-                </div>
-                <div class="col-md-5">
-                    @Html.DisplayFor(m => m.Answer)
-                    @Html.EditorFor(m => m.Answer)
-                </div>
-                <div class="col-md-2">
-                    @Html.DisplayFor(m => m.Score)
-
-                    @if (User.IsInRole(Roles.Admin))
-                    {
-                        @Html.EditorFor(m => m.Score)
-                    }
-                </div>
             </div>
         </div>
-    </div>*@
+    </div>
+</div>
 

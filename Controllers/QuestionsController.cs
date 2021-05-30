@@ -6,28 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ESchool.AppDbContext;
-using ESchool.Models.MultipleChoice;
+using ESchool.Models.WordExercise;
 
 namespace ESchool.Controllers
 {
-    public class MultipleChoiceQuestionsController : Controller
+    public class QuestionsController : Controller
     {
         private readonly ESchoolDbContext _context;
 
-        public MultipleChoiceQuestionsController(ESchoolDbContext context)
+        public QuestionsController(ESchoolDbContext context)
         {
             _context = context;
-
         }
 
-
-        // GET: MultipleChoiceQuestions
+        // GET: Questions
         public async Task<IActionResult> Index()
         {
-            return View(await _context.MultipleChoiceQuestions.ToListAsync());
+            return View(await _context.Questions.ToListAsync());
         }
 
-        // GET: MultipleChoiceQuestions/Details/5
+        // GET: Questions/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,37 +33,39 @@ namespace ESchool.Controllers
                 return NotFound();
             }
 
-            var multipleChoiceQuestion = await _context.MultipleChoiceQuestions
+            var question = await _context.Questions
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (multipleChoiceQuestion == null)
+            if (question == null)
             {
                 return NotFound();
             }
 
-            return View(multipleChoiceQuestion);
+            return View(question);
         }
 
-        // GET: MultipleChoiceQuestions/Create
+        // GET: Questions/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: MultipleChoiceQuestions/Create
+        // POST: Questions/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Topic,QuestionNumber,Questiion,choiceA,choiceB,choiceC,choiceD,Answer,Score")] MultipleChoiceQuestion multipleChoiceQuestion)
+        public async Task<IActionResult> Create([Bind("Id,Topic,QuestionNumber,Questiion,Answer,Score")] Question question)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(multipleChoiceQuestion);
+                _context.Add(question);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(multipleChoiceQuestion);
+            return View(question);
         }
 
-        // GET: MultipleChoiceQuestions/Edit/5
+        // GET: Questions/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,21 +73,22 @@ namespace ESchool.Controllers
                 return NotFound();
             }
 
-            var multipleChoiceQuestion = await _context.MultipleChoiceQuestions.FindAsync(id);
-            if (multipleChoiceQuestion == null)
+            var question = await _context.Questions.FindAsync(id);
+            if (question == null)
             {
                 return NotFound();
             }
-            ViewBag.returnUrl = Request.Headers["Referer"].ToString();//url of prev page
-            return View(multipleChoiceQuestion);
+            return View(question);
         }
 
-        // POST: MultipleChoiceQuestions/Edit/5
+        // POST: Questions/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, string returnUrl, [Bind("Id,Topic,QuestionNumber,Questiion,choiceA,choiceB,choiceC,choiceD,Answer,Score")] MultipleChoiceQuestion multipleChoiceQuestion)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Topic,QuestionNumber,Questiion,Answer,Score")] Question question)
         {
-            if (id != multipleChoiceQuestion.Id)
+            if (id != question.Id)
             {
                 return NotFound();
             }
@@ -96,12 +97,12 @@ namespace ESchool.Controllers
             {
                 try
                 {
-                    _context.Update(multipleChoiceQuestion);
+                    _context.Update(question);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MultipleChoiceQuestionExists(multipleChoiceQuestion.Id))
+                    if (!QuestionExists(question.Id))
                     {
                         return NotFound();
                     }
@@ -110,13 +111,12 @@ namespace ESchool.Controllers
                         throw;
                     }
                 }
-                return Redirect(returnUrl);
-                //return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
             }
-            return View(multipleChoiceQuestion);
+            return View(question);
         }
 
-        // GET: MultipleChoiceQuestions/Delete/5
+        // GET: Questions/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace ESchool.Controllers
                 return NotFound();
             }
 
-            var multipleChoiceQuestion = await _context.MultipleChoiceQuestions
+            var question = await _context.Questions
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (multipleChoiceQuestion == null)
+            if (question == null)
             {
                 return NotFound();
             }
 
-            return View(multipleChoiceQuestion);
+            return View(question);
         }
 
-        // POST: MultipleChoiceQuestions/Delete/5
+        // POST: Questions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var multipleChoiceQuestion = await _context.MultipleChoiceQuestions.FindAsync(id);
-            _context.MultipleChoiceQuestions.Remove(multipleChoiceQuestion);
+            var question = await _context.Questions.FindAsync(id);
+            _context.Questions.Remove(question);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MultipleChoiceQuestionExists(int id)
+        private bool QuestionExists(int id)
         {
-            return _context.MultipleChoiceQuestions.Any(e => e.Id == id);
+            return _context.Questions.Any(e => e.Id == id);
         }
     }
 }
