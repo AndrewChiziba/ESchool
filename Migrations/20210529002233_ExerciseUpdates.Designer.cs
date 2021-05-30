@@ -4,59 +4,22 @@ using ESchool.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ESchool.Migrations
 {
     [DbContext(typeof(ESchoolDbContext))]
-    partial class ESchoolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210529002233_ExerciseUpdates")]
+    partial class ExerciseUpdates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("ESchool.Models.MultipleChoice.MultipleChoiceQuestion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Answer")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Questiion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("QuestionNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Score")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Topic")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("choiceA")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("choiceB")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("choiceC")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("choiceD")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MultipleChoiceQuestions");
-                });
 
             modelBuilder.Entity("ESchool.Models.ResultsRecord.Result", b =>
                 {
@@ -65,19 +28,16 @@ namespace ESchool.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CourseID")
+                        .HasColumnType("int");
+
                     b.Property<int>("ExerciseID")
                         .HasColumnType("int");
 
                     b.Property<int>("StudentID")
                         .HasColumnType("int");
 
-                    b.Property<int>("StudentScore")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Topic")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TotalScore")
+                    b.Property<int>("TotalMark")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -185,9 +145,6 @@ namespace ESchool.Migrations
 
                     b.Property<string>("Questiion")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("QuestionNumber")
-                        .HasColumnType("int");
 
                     b.Property<int>("Score")
                         .HasColumnType("int");

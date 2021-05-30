@@ -1,4 +1,5 @@
 using ESchool.AppDbContext;
+using ESchool.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,7 +32,11 @@ namespace ESchool
             services.AddDbContext<ESchoolDbContext>(c => c.UseSqlServer(connectionString));
 
             //bound identity with DbContext(database)
-            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ESchoolDbContext>();
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<ESchoolDbContext>();
+
+            //CoreAdmin
+            services.AddCoreAdmin("Admin");
 
             services.AddControllersWithViews();
         }

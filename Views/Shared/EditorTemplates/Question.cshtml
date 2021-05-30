@@ -1,0 +1,81 @@
+﻿@model ESchool.Models.WordExercise.Question
+@using ESchool.Helpers
+
+
+<table class="table">
+    <tbody>
+        @Html.HiddenFor(m => m.Id)
+        <tr>
+            <td>
+                @Html.DisplayFor(m => m.QuestionNumber). )  @Html.DisplayFor(m => m.Questiion)
+            </td>
+            <td>
+                @if (User.IsInRole(Roles.Admin))
+                {
+                    @Html.EditorFor(m => m.Questiion)
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(m => m.Answer)
+                @Html.EditorFor(m => m.Answer)
+            </td>
+            <td>
+                @Html.DisplayFor(m => m.Score)
+
+                @if (User.IsInRole(Roles.Admin))
+                {
+                    @Html.EditorFor(m => m.Score)
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label id="correctans" name="@Html.HiddenFor(m => m.Id)" class="rb" style="display:none; color:forestgreen;"><b>@Html.DisplayFor(m => m.Answer)</b></label>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<div>
+        <div>
+            @Html.HiddenFor(m => m.Id)
+            <div class="row">
+
+                <div class="col-md-5">
+                    @Html.DisplayFor(m => m.QuestionNumber).)
+
+                    @Html.DisplayFor(m => m.Questiion)
+
+                    @if (User.IsInRole(Roles.Admin))
+                    {
+                        @Html.EditorFor(m => m.Questiion)
+                    }
+                </div>
+                <div class="col-md-5">
+                    @Html.DisplayFor(m => m.Answer)
+                    @Html.EditorFor(m => m.Answer)
+                </div>
+                <div class="col-md-2">
+                    @Html.DisplayFor(m => m.Score)
+
+                    @if (User.IsInRole(Roles.Admin))
+                    {
+                        @Html.EditorFor(m => m.Score)
+                    }
+                </div>
+            </div>
+        </div>
+    </div>*@
+

@@ -1,0 +1,8 @@
+﻿@model ESchool.Models.WordExercise.QuestionsEdit
+@using (Html.BeginForm("DoExercise", "Exercises", FormMethod.Post))
+{
+    <h2>Переведите следующие слова</h2>
+    @Html.EditorFor(x => x.Questions)
+    <input type="submit" value="Save" />
+
+}

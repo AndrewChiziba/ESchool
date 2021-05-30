@@ -1,4 +1,6 @@
-﻿using ESchool.Models;
+﻿using ESchool.AppDbContext;
+using ESchool.Helpers;
+using ESchool.Models;
 using ESchool.Models.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -12,14 +14,18 @@ namespace ESchool.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly ESchoolDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public AccountController(UserManager<IdentityUser> userManager,
-                                      SignInManager<IdentityUser> signInManager)
+                                      SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager, ESchoolDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -38,17 +44,55 @@ namespace ESchool.Controllers
             if (ModelState.IsValid)
             {
                 //var user = new IdentityUser{UserName = model.Email, Email = model.Email, MiddleName = model.MiddleName, Name = model.Name, Surname = model.Surname };
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, MiddleName = model.MiddleName, Name = model.Name, Surname = model.Surname };
+                var user = new IdentityUser { UserName = model.Email, Email = model.Email};
 
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
+                    //create roles if they dont exist
+                    if (!await _roleManager.RoleExistsAsync(Roles.Admin))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(Roles.Admin));
+                        await _userManager.AddToRoleAsync(user, Roles.Admin);//delete 1st User
+                    }
+                    if (!await _roleManager.RoleExistsAsync(Roles.Teacher))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(Roles.Teacher));
+                    }
+
+                    if (!await _roleManager.RoleExistsAsync(Roles.Student))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(Roles.Student));
+                    }
+
+                    //Assign user to a role as per check box selection
+                    if (model.IsTeacher)
+                    {
+                        await _userManager.AddToRoleAsync(user, Roles.Teacher);
+                        //add teacher
+                        var newTeacher = new Teacher { Name = model.Name, Surname = model.Surname, MiddleName = model.Surname, UserID = user.Id };
+                       await AddTeacher(newTeacher);
+
+                        
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, Roles.Student);
+
+                        var newStudent = new Student { Name = model.Name, Surname = model.Surname, MiddleName = model.Surname, UserID = user.Id };
+                        await AddStudent(newStudent);
+
+                        
+                    }
+
+
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
                     return RedirectToAction("index", "Home");
                 }
 
+                
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError("", error.Description);
@@ -60,6 +104,34 @@ namespace ESchool.Controllers
             return View(model);
         }
 
+        //create student
+
+        public async Task<IActionResult> AddStudent(Student newStudent)
+        {
+            if (newStudent != null)
+            {
+                _context.Add(newStudent);
+               await _context.SaveChangesAsync();
+                return Ok();
+            }  
+            else
+                return RedirectToAction("index");
+        }
+
+        //create teacher
+        public async Task<IActionResult> AddTeacher(Teacher newTeacher)
+        {
+            if (newTeacher != null)
+            {
+                _context.Add(newTeacher);
+               await _context.SaveChangesAsync();
+                return Ok();
+            }  
+            else
+                return RedirectToAction("index");
+        }
+
+ 
         //Login
         [HttpGet]
         [AllowAnonymous]
