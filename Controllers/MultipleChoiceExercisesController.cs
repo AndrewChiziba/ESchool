@@ -118,7 +118,7 @@ namespace ESchool.Controllers
             return View(MCQuestionList);
         }
 
-
+        //GET
         public async Task<IActionResult> DoMultipleChoiceExercise(int? id)
         {
             if (id == null)

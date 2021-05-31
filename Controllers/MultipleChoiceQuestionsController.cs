@@ -98,6 +98,14 @@ namespace ESchool.Controllers
                 {
                     _context.Update(multipleChoiceQuestion);
                     await _context.SaveChangesAsync();
+                    //Update exercise totalscore
+                    var totalscore = _context.MultipleChoiceQuestions.Where(mcq => mcq.Topic == multipleChoiceQuestion.Topic).Sum(r => r.Score);
+
+                    var mcExercise = _context.MultipleChoiceExercises.FirstOrDefault(mce => mce.Topic == multipleChoiceQuestion.Topic);
+                    mcExercise.TotalScore = totalscore;
+
+                    _context.Update(mcExercise);
+                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
