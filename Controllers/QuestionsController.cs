@@ -78,6 +78,7 @@ namespace ESchool.Controllers
             {
                 return NotFound();
             }
+            ViewBag.returnUrl = Request.Headers["Referer"].ToString();//url of prev page
             return View(question);
         }
 
@@ -86,7 +87,7 @@ namespace ESchool.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Topic,QuestionNumber,Questiion,Answer,Score")] Question question)
+        public async Task<IActionResult> Edit(int id, string returnUrl, [Bind("Id,Topic,QuestionNumber,Questiion,Answer,Score")] Question question)
         {
             if (id != question.Id)
             {
@@ -99,6 +100,15 @@ namespace ESchool.Controllers
                 {
                     _context.Update(question);
                     await _context.SaveChangesAsync();
+                    //Update exercise totalscore
+                    var totalscore = _context.Questions.Where(q => q.Topic == question.Topic).Sum(r => r.Score);
+
+                    var exercise = _context.Exercises.FirstOrDefault(e => e.Topic == question.Topic);
+                    exercise.TotalScore = totalscore;
+
+                    _context.Update(exercise);
+                    await _context.SaveChangesAsync();
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -111,7 +121,8 @@ namespace ESchool.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return Redirect(returnUrl);
+                //return RedirectToAction(nameof(Index));
             }
             return View(question);
         }

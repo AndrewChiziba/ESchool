@@ -108,37 +108,36 @@ namespace ESchool.Controllers
             }
 
             var exercise = await _context.Exercises.FindAsync(id);
-            
-            QuestionsEdit questionEdit = new QuestionsEdit();
+
             List<Question> questionList = new List<Question>();
             // you can replace this manual filling with data from database
             questionList = _context.Questions.Where(question => question.Topic == exercise.Topic).ToList();
-            questionEdit.Questions = questionList;
-            return View(questionEdit);
+            
+            return View(questionList);
         }
 
-        [HttpPost]
-        //public ActionResult EditQuestions
-            public async Task<IActionResult> EditQuestions(int id, QuestionsEdit model)
-        {
-            int TotalScore = 0;
-            if (model.Questions != null)
-            {
-                foreach (var item in model.Questions)
-                {
-                    _context.Entry(item).State = EntityState.Modified;
-                    _context.Entry(item).Property(x => x.Topic).IsModified = false;
-                    _context.Entry(item).Property(x => x.QuestionNumber).IsModified = false;
-                    TotalScore += item.Score;
-                }
-                var exercise = await _context.Exercises.FindAsync(id);
-                exercise.TotalScore = TotalScore;
+        //[HttpPost]
+        ////public ActionResult EditQuestions
+        //    public async Task<IActionResult> EditQuestions(int id, QuestionsEdit model)
+        //{
+        //    int TotalScore = 0;
+        //    if (model.Questions != null)
+        //    {
+        //        foreach (var item in model.Questions)
+        //        {
+        //            _context.Entry(item).State = EntityState.Modified;
+        //            _context.Entry(item).Property(x => x.Topic).IsModified = false;
+        //            _context.Entry(item).Property(x => x.QuestionNumber).IsModified = false;
+        //            TotalScore += item.Score;
+        //        }
+        //        var exercise = await _context.Exercises.FindAsync(id);
+        //        exercise.TotalScore = TotalScore;
 
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            return View(model);
-        }
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(model);
+        //}
 
         //Do exercise
         //GET
@@ -150,58 +149,76 @@ namespace ESchool.Controllers
             }
 
             var exercise = await _context.Exercises.FindAsync(id);
+            List<Question> QuestionList = _context.Questions.Where(q => q.Topic == exercise.Topic).ToList();
 
-
-            QuestionsEdit questionEdit = new QuestionsEdit();
-            List<Question> questionList = new List<Question>();
-
-            // filling with data from database
-            questionList = _context.Questions.Where(question => question.Topic == exercise.Topic).ToList();
-            for(int i= 0; i < questionList.Count; i++)
-            {  
-                questionList[i].Answer = "";
-            }
-
-            questionEdit.Questions = questionList;
-            return View(questionEdit);
-        }
-
-        [HttpPost]
-        //public ActionResult DoExercise
-        public async Task<IActionResult> DoExercise(int id,QuestionsEdit model)
-        {
-
-            var exercise = await _context.Exercises.FindAsync(id);
-            //List<Question> questionlist = new List<Question>();
-            List<Question> questionList = _context.Questions.Where(topic => topic.Topic == exercise.Topic).ToList();
-            if (model.Questions != null)
+            if (QuestionList == null)
             {
-                int TotalScore = 0;
-                int StudentScore = 0;
-                //result calculation
-                foreach (var item in model.Questions)
-                {
-
-                    if (item.Answer == exercise.Questions.FirstOrDefault(qId => qId.Id == item.Id).Answer)
-                    {
-                        StudentScore+=1;
-                    }
-                    // _context.Entry(item).State = EntityState.Modified;
-                    // _context.Entry(item).Property(x => x.Topic).IsModified = false;
-                    // _context.Entry(item).Property(x => x.Questiion).IsModified = false;
-                    TotalScore += 1;
-                }
-
-                //create result record
-                var newResult = new Result { ExerciseID = exercise.Id, Topic = exercise.Topic, StudentID = 1, TotalScore =TotalScore, StudentScore = StudentScore };
-
-                await CreateResult(newResult);
-
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return NotFound();
             }
-            return View(model);
+            return View(QuestionList);
+            // return View(await _context.MultipleChoiceQuestions.ToListAsync());
         }
+        ////GET
+        //public async Task<IActionResult> DoExercise(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var exercise = await _context.Exercises.FindAsync(id);
+
+
+        //    QuestionsEdit questionEdit = new QuestionsEdit();
+        //    List<Question> questionList = new List<Question>();
+
+        //    // filling with data from database
+        //    questionList = _context.Questions.Where(question => question.Topic == exercise.Topic).ToList();
+        //    for(int i= 0; i < questionList.Count; i++)
+        //    {  
+        //        questionList[i].Answer = "";
+        //    }
+
+        //    questionEdit.Questions = questionList;
+        //    return View(questionEdit);
+        //}
+
+        //[HttpPost]
+        ////public ActionResult DoExercise
+        //public async Task<IActionResult> DoExercise(int id,QuestionsEdit model)
+        //{
+
+        //    var exercise = await _context.Exercises.FindAsync(id);
+        //    //List<Question> questionlist = new List<Question>();
+        //    List<Question> questionList = _context.Questions.Where(topic => topic.Topic == exercise.Topic).ToList();
+        //    if (model.Questions != null)
+        //    {
+        //        int TotalScore = 0;
+        //        int StudentScore = 0;
+        //        //result calculation
+        //        foreach (var item in model.Questions)
+        //        {
+
+        //            if (item.Answer == exercise.Questions.FirstOrDefault(qId => qId.Id == item.Id).Answer)
+        //            {
+        //                StudentScore+=1;
+        //            }
+        //            // _context.Entry(item).State = EntityState.Modified;
+        //            // _context.Entry(item).Property(x => x.Topic).IsModified = false;
+        //            // _context.Entry(item).Property(x => x.Questiion).IsModified = false;
+        //            TotalScore += 1;
+        //        }
+
+        //        //create result record
+        //        var newResult = new Result { ExerciseID = exercise.Id, Topic = exercise.Topic, StudentID = 1, TotalScore =TotalScore, StudentScore = StudentScore };
+
+        //        await CreateResult(newResult);
+
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(model);
+        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]

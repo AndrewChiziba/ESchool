@@ -1,13 +1,35 @@
-﻿@model ESchool.Models.WordExercise.QuestionsEdit
-@using (Html.BeginForm("DoExercise", "Exercises", FormMethod.Post))
-{
-    <h2>Переведите следующие слова</h2>
-    @Html.EditorFor(x => x.Questions)
-    @*<input type="submit" value="Save" />*@
+﻿@model IEnumerable<ESchool.Models.WordExercise.Question>
 
+@{
+    ViewData["Title"] = "General Exercise";
 }
-<button type="button" id="examButton" class="btn-success" onclick="displayResults()">Submit</button>
 
+<h2>Answer the following questions</h2>
+
+<table class="table">
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QuestionNumber) )  @Html.DisplayFor(modelItem => item.Questiion)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @*<input type="text"  class="rb" value="@Html.DisplayFor(modelItem => item.Answer)" />*@
+                    @Html.EditorFor(modelItem => item.Answer)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label id="correctans" name="@Html.DisplayFor(modelItem => item.Id)" class="rb" style="display:none; color:forestgreen;"><b>@Html.DisplayFor(modelItem => item.Answer)</b></label>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<button type="button" id="examButton" class="btn-success" onclick="displayResults()">Submit</button>
 <label id="pickedAnswers"></label>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
