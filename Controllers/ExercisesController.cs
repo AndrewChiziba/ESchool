@@ -158,67 +158,43 @@ namespace ESchool.Controllers
             return View(QuestionList);
             // return View(await _context.MultipleChoiceQuestions.ToListAsync());
         }
-        ////GET
-        //public async Task<IActionResult> DoExercise(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
 
-        //    var exercise = await _context.Exercises.FindAsync(id);
+        [HttpPost]
+        
+        public async Task<IActionResult> DoExercise(int id, QuestionsEdit model)
+        {
 
+            var exercise = await _context.Exercises.FindAsync(id);
+            //List<Question> questionlist = new List<Question>();
+            List<Question> questionList = _context.Questions.Where(topic => topic.Topic == exercise.Topic).ToList();
+            if (model.Questions != null)
+            {
+                int TotalScore = 0;
+                int StudentScore = 0;
+                //result calculation
+                foreach (var item in model.Questions)
+                {
 
-        //    QuestionsEdit questionEdit = new QuestionsEdit();
-        //    List<Question> questionList = new List<Question>();
+                    if (item.Answer == exercise.Questions.FirstOrDefault(qId => qId.Id == item.Id).Answer)
+                    {
+                        StudentScore += 1;
+                    }
+                    // _context.Entry(item).State = EntityState.Modified;
+                    // _context.Entry(item).Property(x => x.Topic).IsModified = false;
+                    // _context.Entry(item).Property(x => x.Questiion).IsModified = false;
+                    TotalScore += 1;
+                }
 
-        //    // filling with data from database
-        //    questionList = _context.Questions.Where(question => question.Topic == exercise.Topic).ToList();
-        //    for(int i= 0; i < questionList.Count; i++)
-        //    {  
-        //        questionList[i].Answer = "";
-        //    }
+                //create result record
+                var newResult = new Result { ExerciseID = exercise.Id, Topic = exercise.Topic, StudentID = 1, TotalScore = TotalScore, StudentScore = StudentScore };
 
-        //    questionEdit.Questions = questionList;
-        //    return View(questionEdit);
-        //}
+                await CreateResult(newResult);
 
-        //[HttpPost]
-        ////public ActionResult DoExercise
-        //public async Task<IActionResult> DoExercise(int id,QuestionsEdit model)
-        //{
-
-        //    var exercise = await _context.Exercises.FindAsync(id);
-        //    //List<Question> questionlist = new List<Question>();
-        //    List<Question> questionList = _context.Questions.Where(topic => topic.Topic == exercise.Topic).ToList();
-        //    if (model.Questions != null)
-        //    {
-        //        int TotalScore = 0;
-        //        int StudentScore = 0;
-        //        //result calculation
-        //        foreach (var item in model.Questions)
-        //        {
-
-        //            if (item.Answer == exercise.Questions.FirstOrDefault(qId => qId.Id == item.Id).Answer)
-        //            {
-        //                StudentScore+=1;
-        //            }
-        //            // _context.Entry(item).State = EntityState.Modified;
-        //            // _context.Entry(item).Property(x => x.Topic).IsModified = false;
-        //            // _context.Entry(item).Property(x => x.Questiion).IsModified = false;
-        //            TotalScore += 1;
-        //        }
-
-        //        //create result record
-        //        var newResult = new Result { ExerciseID = exercise.Id, Topic = exercise.Topic, StudentID = 1, TotalScore =TotalScore, StudentScore = StudentScore };
-
-        //        await CreateResult(newResult);
-
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(model);
-        //}
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            return View(model);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -233,64 +209,6 @@ namespace ESchool.Controllers
             else
                 return View("Failed to create");
         }
-
-
-        // GET: Exercises/Edit/5
-        public async Task<IActionResult> WExercise(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var exercise = await _context.Exercises.FindAsync(id);
-            //List<Question> questionlist = new List<Question>();
-            List<Question> questionList = _context.Questions.Where(topic => topic.Topic == exercise.Topic).ToList();
-
-            if (questionList == null)
-            {
-                return NotFound();
-            }
-            return View(questionList);
-        }
-
-        // POST: Exercises/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> WExercise(int id, List<Question> questions)
-        {
-            var exercise = await _context.Exercises.FindAsync(id);
-            
-            if (id != exercise.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-
-                    _context.Update(exercise);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ExerciseExists(exercise.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(exercise);
-        }
-
-
 
 
         /*Custom Methods end*/
