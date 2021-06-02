@@ -42,13 +42,13 @@
                 <input asp-for="ConfirmPassword" class="form-control" />
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
-            @*@if (User.IsInRole(Roles.Admin))
-            {*@
+            @if (User.IsInRole(Roles.Admin))
+            {
                 <div class="form-group">
                     <label class="small" asp-for="IsTeacher">Преподаватель?</label>
                     <input asp-for="IsTeacher" class="form-control" />
                 </div>
-                @*}*@
+                }
 
             <button type="submit" class="btn btn-primary">Зарегистрироваться</button><br>
             <a asp-area="" asp-page="/Account/Login">Уже есть аккаунт?</a>

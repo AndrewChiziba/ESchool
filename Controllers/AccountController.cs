@@ -87,8 +87,8 @@ namespace ESchool.Controllers
                     }
 
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
+                    await Logout();
                     return RedirectToAction("index", "Home");
                 }
 

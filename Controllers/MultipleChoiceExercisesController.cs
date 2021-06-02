@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ESchool.AppDbContext;
 using ESchool.Models.MultipleChoice;
+using ESchool.Models.ResultsRecord;
 
 namespace ESchool.Controllers
 {
@@ -138,8 +139,65 @@ namespace ESchool.Controllers
         }
 
 
+        [HttpPost]
+
+        public async Task<IActionResult> DoMultipleChoiceExercise(string topic, List<string> answers)
+        {
+            var st = topic;
+            var ans = answers;
+
+            int TotalScore = 0;
+            int StudentScore = 0;
+
+            var MCExercise = _context.MultipleChoiceExercises.FirstOrDefault(t => t.Topic == topic);
+            TotalScore = MCExercise.TotalScore;
+
+            List<MultipleChoiceQuestion> MCQuestionList = _context.MultipleChoiceQuestions.Where(topic => topic.Topic == MCExercise.Topic).ToList();
+            if (MCQuestionList != null)
+            {
+                //result calculation
+                for (int i = 0; i < MCQuestionList.Count; i++)
+                {
+                    if (answers[i] == MCQuestionList[i].Answer)
+                    {
+                        StudentScore += MCQuestionList[i].Score;//add score
+                    }
 
 
+                    //if (item.Answer == exercise.Questions.FirstOrDefault(qId => qId.Id == item.Id).Answer)
+                    //{
+                    //    StudentScore += 1;
+                    //}
+                    // _context.Entry(item).State = EntityState.Modified;
+                    // _context.Entry(item).Property(x => x.Topic).IsModified = false;
+                    // _context.Entry(item).Property(x => x.Questiion).IsModified = false;
+
+                }
+
+                //create result record
+                var newResult = new Result { ExerciseID = MCExercise.Id, Topic = MCExercise.Topic, StudentID = 2, TotalScore = TotalScore, StudentScore = StudentScore };
+
+                await CreateResult(newResult);
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            return Ok();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateResult(Result result)
+        {
+            if (result != null)
+            {
+                _context.Add(result);
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            else
+                return View("Failed to create");
+        }
 
 
         /*End of custom methods*/

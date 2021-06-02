@@ -16,14 +16,14 @@
             <tr>
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.QuestionNumber) )  @Html.DisplayFor(modelItem => item.Questiion)
+                    @Html.DisplayFor(modelItem => item.QuestionNumber) )  @Html.DisplayFor(modelItem => item.Questiion) ( @Html.DisplayFor(modelItem => item.Score))
                 </td>
             </tr>
             <tr>
                 <td>
-                    <input type="text" id="rb" name="@Html.NameFor(modelItem => item.Answer)">
+                    <input type="text" id="rb" class="getanswer" name="@Html.NameFor(modelItem => item.Answer)">
                     @*@Html.EditorFor(modelItem => item.Answer)*@
-                    <input type="hidden" id="topic" name="@Html.NameFor(modelItem => item.Topic)" class="rb" value="@Html.DisplayFor(modelItem => item.Topic)" />
+                    <input type="hidden" id="topic" name="@Html.NameFor(modelItem => item.Topic)" class="topic" value="@Html.DisplayFor(modelItem => item.Topic)" />
                 </td>
             </tr>
             <tr>
@@ -49,13 +49,34 @@
 
     function displayResults() {
         document.getElementById("pickedAnswers").innerHTML = "";
-        var results = document.getElementsByTagName('input');
+        var topics = document.getElementsByClassName('topic');
+        topic = topics[1].value;
+        alert(topic);
+        var results = document.getElementsByClassName('getanswer')
+        var answers = [];
+
         for (i = 0; i < results.length; i++) {
 
             if (results[i].type == "text") {
-                
-                    document.getElementById("pickedAnswers").innerHTML += "Q " + results[i].name + ")" + "The selected answer is " + results[i].value + "<br>";
+                answers.push(results[i].value);
+                document.getElementById("pickedAnswers").innerHTML += "Q " + results[i].name + ")" + "The selected answer is " + results[i].value + "<br>";
             }
         }
+        console.log(answers);
+
+        // jQuery Ajax Post Request using $.ajax()
+        $.ajax({
+            url: 'DoExercise',
+            type: 'POST',
+            // passing JSON objects as comma(,) separated values
+            data: {
+                topic,
+                answers
+            },
+            success: (response) => {
+                // response from PHP back-end PHP server          
+                $("#resultID").show().html(response);
+            }
+        })
     }
 </script>

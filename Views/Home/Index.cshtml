@@ -1,4 +1,5 @@
-﻿@{
+﻿@using ESchool.Helpers
+    @{
     ViewData["Title"] = "Home Page";
 }
 
@@ -14,12 +15,12 @@
             <img class="d-block w-100" src="~/images/banner.jpg" alt="First slide">
             <div class="carousel-caption d-none d-md-block">
                 <h1>Изучайте английский сегодня..</h1>
-                
+
                 <p>Изучение английского<br> теперь стало проще для всех</p>
-               
-               <p>
+
+                <p>
                     Таким образом курс на социально-ориентированный национальный проект создаёт предпосылки качественно новых шагов для новых предложений.
-                    <a href="https://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409"></a>
+                    <a href="#"></a>
 
                 </p>
             </div>
@@ -41,7 +42,7 @@
                 <p style="padding-bottom: 80px">
                     Посмотрите курсы и выберите тот, который вам подходит.
 
-                    <a href="https://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409"></a>
+                    <a href="#"></a>
 
                 </p>
             </div>
@@ -60,22 +61,22 @@
 <div class="row">
     <div class="col-md-4">
 
-        <a href="https://go.microsoft.com/fwlink/?LinkID=398939"><h2>Начальный курс</h2></a>
+        <a href="#"><h2>Начальный курс</h2></a>
         <p class="font-size-1 text-secondary">
             Это начальная ступень знаний английского языка. Если вы никогда раньше не изучали английский, то курс "Начальный курс" - это то, что вам нужно...
         </p>
     </div>
     <div class="col-md-4">
-        <a href="https://go.microsoft.com/fwlink/?LinkID=398939"><h2>Элементарный курс</h2></a>
+        <a href="#"><h2>Элементарный курс</h2></a>
         <p>
             Вы можете обучаться на этом курсе если вы
             немного изучали английский язык прежде
             и имеете какое-то представление о структуре языка, но вашим познаниям не хватает систематизированности.
         </p>
- 
+
     </div>
     <div class="col-md-4">
-        <a href="https://go.microsoft.com/fwlink/?LinkID=398939"><h2>Средный курс</h2></a>
+        <a href="#"><h2>Средный курс</h2></a>
         <p>
             Этот курс - ваш билет в мир новых возможностей и открытий. Вам подходит средный курс если вы понимаете основную грамматику, но вам тяжело применять ее в спонтанной речи и можете поддержать беседу, но говорите кратко и отрывочно
         </p>
@@ -84,58 +85,81 @@
 
 @*TESTING ARENA*@
 <br />
-<div class="row">
-    <div class="col-md-4">
+@if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
+{
 
-        <a href="https://go.microsoft.com/fwlink/?LinkID=398939"><h2>Creating Exercises</h2></a>
-        <p class="font-size-1 text-secondary">
-            Multiple choice and general questions.
-        </p>
-        <div>
-            <ul>
-                <li><a asp-area="" asp-controller="Exercises" asp-action="Index">Translate word/General</a></li>
-                <li><a asp-area="" asp-controller="MultipleChoiceExercises" asp-action="Index">Multiple choice exercise</a></li>
+    <div class="row">
+        <div class="col-md-3">
 
-                @*<li><a asp-area="" asp-controller="MultipleChoiceQuestions" asp-action="Index">Create multiple choice questions</a></li>
-                <li><a asp-area="" asp-controller="TranslateWordQuestions" asp-action="Index">Create translate words exercise</a></li>
-                <li><a asp-area="" asp-controller="TranslateWordHelpers" asp-action="Index">HELP translate words exercise</a></li>*@
+            <a href="#"><h2>Creating Exercises</h2></a>
+            <p class="font-size-1 text-secondary">
+                Multiple choice and general questions.
+            </p>
+            <div>
+                <ul>
+                    <li><a asp-area="" asp-controller="Exercises" asp-action="Index">General</a></li>
+                    <li><a asp-area="" asp-controller="TranslateExercises" asp-action="Index">Translate General</a></li>
+                    <li><a asp-area="" asp-controller="MultipleChoiceExercises" asp-action="Index">Multiple choice exercise</a></li>
 
-            </ul>
+                    @*<li><a asp-area="" asp-controller="MultipleChoiceQuestions" asp-action="Index">Create multiple choice questions</a></li>
+                        <li><a asp-area="" asp-controller="TranslateWordQuestions" asp-action="Index">Create translate words exercise</a></li>
+                        <li><a asp-area="" asp-controller="TranslateWordHelpers" asp-action="Index">HELP translate words exercise</a></li>*@
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <a href="#"><h2>Raw questions</h2></a>
+            <p>
+                General lists of questions
+            </p>
+            <div>
+                <ul>
+                    <li><a asp-area="" asp-controller="Questions" asp-action="Index">General questions</a></li>
+                    <li><a asp-area="" asp-controller="MultipleChoiceQuestions" asp-action="Index"> Multiple choice questions</a></li>
+                    @*<li><a asp-area="" asp-controller="MultipleChoiceQuestions" asp-action="Index">Create multiple choice questions</a></li>
+                        <li><a asp-area="" asp-controller="TranslateWordQuestions" asp-action="Index">Create translate words exercise</a></li>
+                        <li><a asp-area="" asp-controller="TranslateWordHelpers" asp-action="Index">HELP translate words exercise</a></li>*@
+
+                </ul>
+            </div>
+
+        </div>
+        <div class="col-md-3">
+            <a href="#"><h2>Do Exercises</h2></a>
+            <p>
+                Carry out a general or multiple choice exercise.
+            </p>
+            <div>
+                <ul>
+                    <li><a asp-area="" asp-controller="Exercises" asp-action="Index">General exercises</a></li>
+                    <li><a asp-area="" asp-controller="Exercises" asp-action="TranslateIndex">Translate exercises</a></li>
+                    <li><a asp-area="" asp-controller="MultipleChoiceExercises" asp-action="Index"> Multiple choice exercises</a></li>
+                    @*<li><a asp-area="" asp-controller="TranslateWordExercises" asp-action="Index">Do translate word exercise</a></li>
+                        <li><a asp-area="" asp-controller="MultipleChoiceQuestions" asp-action="Index">Create multiple choice questions</a></li>
+                        <li><a asp-area="" asp-controller="TranslateWordQuestions" asp-action="Index">Create translate words exercise</a></li>
+                        <li><a asp-area="" asp-controller="TranslateWordHelpers" asp-action="Index">HELP translate words exercise</a></li>*@
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <a href="#"><h2>Files</h2></a>
+            <p>
+                Education materials,i.e files and books.
+            </p>
+            <div>
+                <ul>
+                    <li><a asp-area="" asp-controller="PdfMaterials" asp-action="Index">All books/pdfs</a></li>
+                    <li><a asp-area="" asp-controller="PdfMaterials" asp-action="AddNewPdf"> Upload new file</a></li>
+                    @*<li><a asp-area="" asp-controller="TranslateWordExercises" asp-action="Index">Do translate word exercise</a></li>
+                        <li><a asp-area="" asp-controller="MultipleChoiceQuestions" asp-action="Index">Create multiple choice questions</a></li>
+                        <li><a asp-area="" asp-controller="TranslateWordQuestions" asp-action="Index">Create translate words exercise</a></li>
+                        <li><a asp-area="" asp-controller="TranslateWordHelpers" asp-action="Index">HELP translate words exercise</a></li>*@
+
+                </ul>
+            </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <a href="https://go.microsoft.com/fwlink/?LinkID=398939"><h2>Raw questions</h2></a>
-        <p>
-            General lists of questions
-        </p>
-        <div>
-            <ul>
-                <li><a asp-area="" asp-controller="Questions" asp-action="Index">General questions</a></li>
-                <li><a asp-area="" asp-controller="MultipleChoiceQuestions" asp-action="Index"> Multiple choice questions</a></li>
-                @*<li><a asp-area="" asp-controller="MultipleChoiceQuestions" asp-action="Index">Create multiple choice questions</a></li>
-        <li><a asp-area="" asp-controller="TranslateWordQuestions" asp-action="Index">Create translate words exercise</a></li>
-        <li><a asp-area="" asp-controller="TranslateWordHelpers" asp-action="Index">HELP translate words exercise</a></li>*@
 
-            </ul>
-        </div>
-
-    </div>
-    <div class="col-md-4">
-        <a href="https://go.microsoft.com/fwlink/?LinkID=398939"><h2>Do Exercises</h2></a>
-        <p>
-           Carry out a general or multiple choice exercise.
-        </p>
-        <div>
-            <ul>
-            <li><a asp-area="" asp-controller="Exercises" asp-action="Index">General exercises</a></li>
-            <li><a asp-area="" asp-controller="MultipleChoiceExercises" asp-action="Index"> Multiple choice exercises</a></li>
-            @*<li><a asp-area="" asp-controller="TranslateWordExercises" asp-action="Index">Do translate word exercise</a></li>
-            <li><a asp-area="" asp-controller="MultipleChoiceQuestions" asp-action="Index">Create multiple choice questions</a></li>
-            <li><a asp-area="" asp-controller="TranslateWordQuestions" asp-action="Index">Create translate words exercise</a></li>
-            <li><a asp-area="" asp-controller="TranslateWordHelpers" asp-action="Index">HELP translate words exercise</a></li>*@
-
-        </ul>
-        </div>
-    </div>
-</div>
-
+}

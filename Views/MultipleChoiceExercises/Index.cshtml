@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ESchool.Models.MultipleChoice.MultipleChoiceExercise>
+﻿@using ESchool.Helpers
+@model IEnumerable<ESchool.Models.MultipleChoice.MultipleChoiceExercise>
 
 @{
     ViewData["Title"] = "Index";
@@ -37,12 +38,18 @@
                 @Html.DisplayFor(modelItem => item.TotalScore)
             </td>
             <td>
-                <a asp-action="DoMultipleChoiceExercise" asp-route-id="@item.Id"> Do exercise</a>|
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit Exercise</a> |
-                <a asp-action="EditMultipleChoiceQuestion" asp-route-id="@item.Id">Edit exercises questions</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="DoMultipleChoiceExercise" asp-route-id="@item.Id"> Do exercise</a>
             </td>
+            @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
+            {
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit Exercise</a> |
+                    <a asp-action="EditMultipleChoiceQuestion" asp-route-id="@item.Id">Edit exercises questions</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            }
 
         </tr>
 }

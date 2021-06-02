@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using ESchool.Models.WordExercise;
 using ESchool.Models.ResultsRecord;
 using ESchool.Models.MultipleChoice;
+using ESchool.Models.EduMaterial;
 
 namespace ESchool.AppDbContext
 {
@@ -37,6 +38,8 @@ namespace ESchool.AppDbContext
         public DbSet<MultipleChoiceExercise> MultipleChoiceExercises { get; set; }
 
         public DbSet<Result> Results { get; set; }
+
+        public DbSet<PdfMaterial> PdfMaterials { get; set; }
         
 
         //public DbSet<ApplicationUser> ApplicationUsers { get; set; }//redundant,use identity

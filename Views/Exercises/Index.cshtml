@@ -1,25 +1,26 @@
-﻿@model IEnumerable<ESchool.Models.WordExercise.Exercise>
+﻿@using ESchool.Helpers
+@model IEnumerable<ESchool.Models.WordExercise.Exercise>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Практическое упражнение по грамматике</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Добавить упражнение</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Topic)
+                @*@Html.DisplayNameFor(model => model.Topic)*@Тема
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NumberOfQuestions)
+                @*@Html.DisplayNameFor(model => model.NumberOfQuestions)*@Количество Вопросов
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TotalScore)
+                @*@Html.DisplayNameFor(model => model.TotalScore)*@Балл
             </th>
             <th></th>
         </tr>
@@ -37,19 +38,21 @@
                 @Html.DisplayFor(modelItem => item.TotalScore)
             </td>
             <td>
-                @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="DoExercise" asp-route-id="@item.Id">Do exercises </a> |
-                <a asp-action="EditQuestions" asp-route-id="@item.Id">Edit Questions</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
-
-
-                <a asp-controller="Exercises" asp-action="DoExercise" asp-route-id="@item.Id"> Do exercise</a>|
-                <a asp-controller="Exercises" asp-action="Edit" asp-route-id="@item.Id">Edit Exercise</a> |
-                <a asp-controller="Questions" asp-action="EditEdit" asp-route-id="@item.Id">Edit exercises questions</a> |
-                <a asp-controller="Questions" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-controller="Questions" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-controller="Exercises" asp-action="DoExercise" asp-route-id="@item.Id"> Do exercise</a>
             </td>
+            @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
+            {
+
+                <td>
+
+                    @*<a asp-controller="Exercises" asp-action="TranslateExercise" asp-route-id="@item.Id"> Do Translate exercise</a>|*@
+                    <a asp-controller="Exercises" asp-action="Edit" asp-route-id="@item.Id">Edit Exercise</a> |
+                    <a asp-action="EditQuestions" asp-route-id="@item.Id">Edit exercises questions</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+
+                </td>
+            }
         </tr>
 }
     </tbody>
