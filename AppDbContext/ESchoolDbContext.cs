@@ -9,6 +9,7 @@ using ESchool.Models.WordExercise;
 using ESchool.Models.ResultsRecord;
 using ESchool.Models.MultipleChoice;
 using ESchool.Models.EduMaterial;
+using ESchool.Models.CourseTimeTable;
 
 namespace ESchool.AppDbContext
 {
@@ -37,10 +38,11 @@ namespace ESchool.AppDbContext
         public DbSet<MultipleChoiceQuestion> MultipleChoiceQuestions { get; set; }
         public DbSet<MultipleChoiceExercise> MultipleChoiceExercises { get; set; }
 
-        public DbSet<Result> Results { get; set; }
-
         public DbSet<PdfMaterial> PdfMaterials { get; set; }
-        
+        public DbSet<Result> Results { get; set; }
+        public DbSet<TimeTable> TimeTables { get; set; }
+        public DbSet<TTEntry> TTEntries { get; set; }
+
 
         //public DbSet<ApplicationUser> ApplicationUsers { get; set; }//redundant,use identity
     }

@@ -34,7 +34,7 @@ namespace ESchool.Controllers
             }
 
             var teacher = await _context.Teachers
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (teacher == null)
             {
                 return NotFound();
@@ -88,7 +88,7 @@ namespace ESchool.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Surname,Name,MiddleName,UserID,CourseID")] Teacher teacher)
         {
-            if (id != teacher.ID)
+            if (id != teacher.Id)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace ESchool.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TeacherExists(teacher.ID))
+                    if (!TeacherExists(teacher.Id))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace ESchool.Controllers
             }
 
             var teacher = await _context.Teachers
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (teacher == null)
             {
                 return NotFound();
@@ -147,7 +147,7 @@ namespace ESchool.Controllers
 
         private bool TeacherExists(int id)
         {
-            return _context.Teachers.Any(e => e.ID == id);
+            return _context.Teachers.Any(e => e.Id == id);
         }
     }
 }

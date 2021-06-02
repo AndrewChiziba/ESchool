@@ -9,7 +9,7 @@ namespace ESchool.Models
 {
     public class Student
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         //
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 1)]
@@ -30,9 +30,9 @@ namespace ESchool.Models
         
         //FKs
         //[ForeignKey("AspNetUsers")]
-        public string UserID { get; set; }
+        public string UserId { get; set; }
 
-        public int CourseID { get; set; }
+        public int CourseId { get; set; }
 
     }
 }

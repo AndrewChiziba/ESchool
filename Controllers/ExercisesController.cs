@@ -202,7 +202,7 @@ namespace ESchool.Controllers
                 }
 
                 //create result record
-                var newResult = new Result { ExerciseID = exercise.Id, Topic = exercise.Topic, StudentID = 1, TotalScore = TotalScore, StudentScore = StudentScore };
+                var newResult = new Result { ExerciseId = exercise.Id, Topic = exercise.Topic, StudentId = 1, TotalScore = TotalScore, StudentScore = StudentScore };
 
                 await CreateResult(newResult);
 
@@ -268,7 +268,7 @@ namespace ESchool.Controllers
                 }
 
                 //create result record
-                var newResult = new Result { ExerciseID = exercise.Id, Topic = exercise.Topic, StudentID = 1, TotalScore = TotalScore, StudentScore = StudentScore };
+                var newResult = new Result { ExerciseId = exercise.Id, Topic = exercise.Topic, StudentId = 1, TotalScore = TotalScore, StudentScore = StudentScore };
 
                 await CreateResult(newResult);
 

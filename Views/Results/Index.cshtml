@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ESchool.Models.Student>
+﻿@model IEnumerable<ESchool.Models.ResultsRecord.Result>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,19 +13,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Surname)
+                @Html.DisplayNameFor(model => model.Topic)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.StudentId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MiddleName)
+                @Html.DisplayNameFor(model => model.ExerciseId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserId)
+                @Html.DisplayNameFor(model => model.TotalScore)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CourseId)
+                @Html.DisplayNameFor(model => model.StudentScore)
             </th>
             <th></th>
         </tr>
@@ -34,19 +34,19 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.TextBoxFor(modelItem => item.Surname)
+                @Html.DisplayFor(modelItem => item.Topic)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.StudentId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MiddleName)
+                @Html.DisplayFor(modelItem => item.ExerciseId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UserId)
+                @Html.DisplayFor(modelItem => item.TotalScore)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CourseId)
+                @Html.DisplayFor(modelItem => item.StudentScore)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

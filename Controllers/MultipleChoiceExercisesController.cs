@@ -175,7 +175,7 @@ namespace ESchool.Controllers
                 }
 
                 //create result record
-                var newResult = new Result { ExerciseID = MCExercise.Id, Topic = MCExercise.Topic, StudentID = 2, TotalScore = TotalScore, StudentScore = StudentScore };
+                var newResult = new Result { ExerciseId = MCExercise.Id, Topic = MCExercise.Topic, StudentId = 2, TotalScore = TotalScore, StudentScore = StudentScore };
 
                 await CreateResult(newResult);
 

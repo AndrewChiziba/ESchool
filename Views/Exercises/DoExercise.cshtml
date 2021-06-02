@@ -35,7 +35,7 @@
     </tbody>
 </table>
 <button type="button" id="examButton" class="btn-success" onclick="displayResults()">Submit</button>
-<label id="pickedAnswers"></label>
+@*<label id="pickedAnswers"></label>*@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -51,7 +51,7 @@
         document.getElementById("pickedAnswers").innerHTML = "";
         var topics = document.getElementsByClassName('topic');
         topic = topics[1].value;
-        alert(topic);
+        /*alert(topic);*/
         var results = document.getElementsByClassName('getanswer')
         var answers = [];
 

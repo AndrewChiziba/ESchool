@@ -71,7 +71,7 @@ namespace ESchool.Controllers
                     {
                         await _userManager.AddToRoleAsync(user, Roles.Teacher);
                         //add teacher
-                        var newTeacher = new Teacher { Name = model.Name, Surname = model.Surname, MiddleName = model.Surname, UserID = user.Id };
+                        var newTeacher = new Teacher { Name = model.Name, Surname = model.Surname, MiddleName = model.Surname, UserId = user.Id };
                        await AddTeacher(newTeacher);
 
                         
@@ -80,7 +80,7 @@ namespace ESchool.Controllers
                     {
                         await _userManager.AddToRoleAsync(user, Roles.Student);
 
-                        var newStudent = new Student { Name = model.Name, Surname = model.Surname, MiddleName = model.Surname, UserID = user.Id };
+                        var newStudent = new Student { Name = model.Name, Surname = model.Surname, MiddleName = model.Surname, UserId = user.Id };
                         await AddStudent(newStudent);
 
                         
