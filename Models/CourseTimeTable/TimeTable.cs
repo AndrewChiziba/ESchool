@@ -8,10 +8,11 @@ namespace ESchool.Models.CourseTimeTable
     public class TimeTable
     {
         public int Id { get; set; }
-        public int CourseId { get; set; }
+
+        public string CourseName { get; set; }
         public int TeacherId { get; set; }
 
-        List<TTEntry> TTEntries { get; set; }
+        public List<TTEntry> TTEntries { get; set; }
 
     }
 }

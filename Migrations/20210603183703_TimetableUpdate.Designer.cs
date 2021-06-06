@@ -4,14 +4,16 @@ using ESchool.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ESchool.Migrations
 {
     [DbContext(typeof(ESchoolDbContext))]
-    partial class ESchoolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210603183703_TimetableUpdate")]
+    partial class TimetableUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,12 +37,7 @@ namespace ESchool.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("TimeTableId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("TimeTableId");
 
                     b.ToTable("TTEntries");
                 });
@@ -52,8 +49,8 @@ namespace ESchool.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CourseName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CourseName")
+                        .HasColumnType("int");
 
                     b.Property<int>("TeacherId")
                         .HasColumnType("int");
@@ -486,13 +483,6 @@ namespace ESchool.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ESchool.Models.CourseTimeTable.TTEntry", b =>
-                {
-                    b.HasOne("ESchool.Models.CourseTimeTable.TimeTable", null)
-                        .WithMany("TTEntries")
-                        .HasForeignKey("TimeTableId");
-                });
-
             modelBuilder.Entity("ESchool.Models.MultipleChoice.MultipleChoiceQuestion", b =>
                 {
                     b.HasOne("ESchool.Models.MultipleChoice.MultipleChoiceExercise", null)
@@ -556,11 +546,6 @@ namespace ESchool.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ESchool.Models.CourseTimeTable.TimeTable", b =>
-                {
-                    b.Navigation("TTEntries");
                 });
 
             modelBuilder.Entity("ESchool.Models.MultipleChoice.MultipleChoiceExercise", b =>

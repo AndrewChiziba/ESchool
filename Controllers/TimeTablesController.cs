@@ -49,12 +49,11 @@ namespace ESchool.Controllers
             return View();
         }
 
-        // POST: TimeTables/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
+
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CourseID,TeacherID")] TimeTable timeTable)
+        public async Task<IActionResult> Create([Bind("Id,CourseName,TeacherId")] TimeTable timeTable)
         {
             if (ModelState.IsValid)
             {
@@ -64,6 +63,120 @@ namespace ESchool.Controllers
             }
             return View(timeTable);
         }
+
+
+        /*Custom*/
+
+
+        // GET: TimeTables/Edit/5
+        public async Task<IActionResult> CheckTT(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            
+            var tt = await _context.TimeTables.FindAsync(id);
+            tt.TTEntries = _context.TTEntries.Where(t => t.TimeTableId == tt.Id).ToList();
+            if (tt == null)
+            {
+                return NotFound();
+            }
+            TimeTableViewModel TTViewModel = new TimeTableViewModel
+            {
+               /* CourseName = tt.CourseName, */TeacherId = tt.TeacherId, TTEntries = tt.TTEntries
+            };
+            
+            
+            //new await _context.TimeTables.FindAsync(id);
+
+            return View(TTViewModel);
+        }
+
+        // POST: TimeTables/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CheckTT(int id, [Bind("Id,CourseName,TeacherId")] TimeTable timeTable)
+        {
+            if (id != timeTable.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(timeTable);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!TimeTableExists(timeTable.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(timeTable);
+        }
+
+
+        // GET: TTEntries/Create
+        public IActionResult AddEntry(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var tt =  _context.TimeTables.Find(id);
+            if (tt == null)
+            {
+                return NotFound();
+            }
+            AddEntryEditModel addEntryEditModel = new AddEntryEditModel
+            {
+                CourseName = tt.CourseName,
+
+                TimeTableId = tt.Id
+            };
+
+            return View(addEntryEditModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddEntry(AddEntryEditModel addEntryEditModel)
+        {
+            TTEntry tTEntry = new TTEntry
+            {
+                Activity = addEntryEditModel.Activity,
+                StartDate = addEntryEditModel.StartDate,
+                EndDate = addEntryEditModel.EndDate,
+                TimeTableId = addEntryEditModel.TimeTableId,
+                
+
+            };
+            //if (ModelState.IsValid)
+            //{
+                _context.Add(tTEntry);
+                await _context.SaveChangesAsync();
+            //    return RedirectToAction(nameof(Index));
+            //}
+            return View(addEntryEditModel);
+        }
+
+
+
+
+
+        /*Custom ending*/
 
         // GET: TimeTables/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -80,13 +193,12 @@ namespace ESchool.Controllers
             }
             return View(timeTable);
         }
-
         // POST: TimeTables/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CourseID,TeacherID")] TimeTable timeTable)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CourseName,TeacherId")] TimeTable timeTable)
         {
             if (id != timeTable.Id)
             {
