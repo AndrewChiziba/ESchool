@@ -15,7 +15,7 @@ namespace ESchool.Models.CourseTimeTable
         public string CourseName { get; set; }
         public string TeacherName { get; set; }
 
-        //public List<TTEntry> TTEntries { get; set; }
+        public List<TimeTable> TimeTables { get; set; }
         public List<TTEntry> TTEntries { set; get; }
         public TimeTableViewModel()
         {

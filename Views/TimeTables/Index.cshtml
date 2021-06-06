@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ESchool.Models.CourseTimeTable.TimeTable>
+﻿@model ESchool.Models.CourseTimeTable.TimeTableViewModel
 
 @{
     ViewData["Title"] = "Расписания";
@@ -25,23 +25,24 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CourseName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TeacherId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                <a asp-action="CheckTT" asp-route-id="@item.Id">Entries</a> |
-                <a asp-action="AddEntry" asp-route-id="@item.Id">Add entry</a> |
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.TimeTables)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.TeacherName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                    <a asp-action="CheckTT" asp-route-id="@item.Id">Entries</a> |
+                    <a asp-action="AddEntry" asp-route-id="@item.Id">Add entry</a> |
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 <div>
