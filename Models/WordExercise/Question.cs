@@ -10,7 +10,7 @@ namespace ESchool.Models.WordExercise
     {
         public int Id { get; set; }
 
-        public string Topic { get; set; }
+        public int ExerciseId { get; set; }
 
         public int QuestionNumber { get; set; }
 

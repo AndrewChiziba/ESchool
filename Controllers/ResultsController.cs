@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -56,7 +54,7 @@ namespace ESchool.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Topic,StudentID,ExerciseID,TotalScore,StudentScore")] Result result)
+        public async Task<IActionResult> Create([Bind("Id,Topic,StudentId,ExerciseId,TotalScore,StudentScore")] Result result)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +86,7 @@ namespace ESchool.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Topic,StudentID,ExerciseID,TotalScore,StudentScore")] Result result)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Topic,StudentId,ExerciseId,TotalScore,StudentScore")] Result result)
         {
             if (id != result.Id)
             {

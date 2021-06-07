@@ -1,51 +1,43 @@
 ﻿@model ESchool.Models.WordExercise.Question
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Создать вопрос";
 }
 
-<h1>Create</h1>
+<h1>Вопрос</h1>
 
-<h4>Question</h4>
+<h4>Создать новый вопрос</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+            <input type="hidden" asp-for="ExerciseId" />
             <div class="form-group">
-                <label asp-for="Topic" class="control-label"></label>
-                <input asp-for="Topic" class="form-control" />
-                <span asp-validation-for="Topic" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="QuestionNumber" class="control-label"></label>
-                <input asp-for="QuestionNumber" class="form-control" />
-                <span asp-validation-for="QuestionNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Questiion" class="control-label"></label>
+                <label asp-for="Questiion" class="control-label">Вопрос</label>
                 <input asp-for="Questiion" class="form-control" />
                 <span asp-validation-for="Questiion" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Answer" class="control-label"></label>
+                <label asp-for="Answer" class="control-label">Ответ</label>
                 <input asp-for="Answer" class="form-control" />
                 <span asp-validation-for="Answer" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Score" class="control-label"></label>
+                <label asp-for="Score" class="control-label">Балл</label>
                 <input asp-for="Score" class="form-control" />
                 <span asp-validation-for="Score" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Добавить вопрос" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Назад</a>
 </div>
 
 @section Scripts {

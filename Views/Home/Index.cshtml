@@ -85,7 +85,7 @@
 
 @*TESTING ARENA*@
 <br />
-@if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
+@if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher)||User.IsInRole(Roles.Student))
 {
 
     <div class="row">
@@ -145,15 +145,19 @@
         </div>
         <div class="col-md-3">
             <a href="#"><h2>Файлы</h2></a>
-            <p>
-                Education materials,i.e files and books.
-            </p>
+
             <div>
+                <p>
+                    Education materials,i.e files and books.
+                </p>
                 <ul>
                     <li><a asp-area="" asp-controller="PdfMaterials" asp-action="Index">All books/pdfs</a></li>
                     <li><a asp-area="" asp-controller="PdfMaterials" asp-action="AddNewPdf"> Upload new file</a></li>
-                    <p><b>Расписание</b></p>
+                    <b>Расписание</b>
                     <li><a asp-area="" asp-controller="TimeTables" asp-action="Index"> Course schedules(Timetable)</a></li>
+                    <b>Результаты</b>
+                    <li><a  asp-controller="Results" asp-action="Index">Результать</a></li>
+
                     @*<li><a asp-area="" asp-controller="TranslateWordExercises" asp-action="Index">Do translate word exercise</a></li>
         <li><a asp-area="" asp-controller="MultipleChoiceQuestions" asp-action="Index">Create multiple choice questions</a></li>
         <li><a asp-area="" asp-controller="TranslateWordQuestions" asp-action="Index">Create translate words exercise</a></li>

@@ -44,9 +44,23 @@ namespace ESchool.Controllers
         }
 
         // GET: Questions/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var exercise = _context.Exercises.Find(id);
+            if (exercise == null)
+            {
+                return NotFound();
+            }
+            Question question = new Question
+            {
+                ExerciseId = exercise.Id
+            };
+            ViewBag.returnUrl = Request.Headers["Referer"].ToString();//get url of prev page
+            return View(question);
         }
 
         // POST: Questions/Create
@@ -54,13 +68,29 @@ namespace ESchool.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Topic,QuestionNumber,Questiion,Answer,Score")] Question question)
+        public async Task<IActionResult> Create(string returnUrl, [Bind("ExerciseId,Questiion,Answer,Score")] Question question)
         {
             if (ModelState.IsValid)
             {
+                var num_questions = _context.Questions.Where(qid => qid.ExerciseId == question.ExerciseId).Count();
+
+                question.QuestionNumber = num_questions + 1;
+
                 _context.Add(question);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                var exercise = _context.Exercises.FirstOrDefault(e => e.Id == question.ExerciseId);
+                var totalscore = _context.Questions.Where(q => q.ExerciseId == question.ExerciseId).Sum(r => r.Score);
+               
+                //Update exercise totalscore/num_questions
+                exercise.NumberOfQuestions = question.QuestionNumber;
+                exercise.TotalScore = totalscore;
+
+                _context.Update(exercise);
+                await _context.SaveChangesAsync();
+
+                return Redirect(returnUrl);//return to prev page
+                //return RedirectToAction(nameof(Index));
             }
             return View(question);
         }
@@ -87,7 +117,7 @@ namespace ESchool.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, string returnUrl, [Bind("Id,Topic,QuestionNumber,Questiion,Answer,Score")] Question question)
+        public async Task<IActionResult> Edit(int id, string returnUrl, [Bind("Id,QuestionNumber,Questiion,Answer,Score")] Question question)
         {
             if (id != question.Id)
             {
@@ -101,9 +131,9 @@ namespace ESchool.Controllers
                     _context.Update(question);
                     await _context.SaveChangesAsync();
                     //Update exercise totalscore
-                    var totalscore = _context.Questions.Where(q => q.Topic == question.Topic).Sum(r => r.Score);
+                    var totalscore = _context.Questions.Where(q => q.ExerciseId == question.ExerciseId).Sum(r => r.Score);
 
-                    var exercise = _context.Exercises.FirstOrDefault(e => e.Topic == question.Topic);
+                    var exercise = _context.Exercises.FirstOrDefault(e => e.Id == question.ExerciseId);
                     exercise.TotalScore = totalscore;
 
                     _context.Update(exercise);

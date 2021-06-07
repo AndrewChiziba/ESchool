@@ -1,29 +1,29 @@
-﻿@model IEnumerable<ESchool.Models.WordExercise.Question>
+﻿@model ESchool.Models.WordExercise.ExerciseViewModel
 
 @{
-    ViewData["Title"] = "Translate Exercise";
+    ViewData["Title"] = "General Exercise";
 }
 
-<h2>Translate the following wordss</h2>
-
+<h2>Answer the following questions</h2>
+<input type="hidden" id="exerciseId" name="@Html.NameFor(modelItem => Model.ExerciseId);" class="exerciseId" value="@Html.DisplayFor(modelItem => Model.ExerciseId)" />
 <table class="table">
 
     <tbody>
 
-        @foreach (var item in Model)
+        @foreach (var item in Model.Questions)
         {
 
             <tr>
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.QuestionNumber) )  @Html.DisplayFor(modelItem => item.Questiion)  <input type="text" id="rb" class="getanswer" name="@Html.NameFor(modelItem => item.Answer)">   ( @Html.DisplayFor(modelItem => item.Score))
+                    @Html.DisplayFor(modelItem => item.QuestionNumber) )  @Html.DisplayFor(modelItem => item.Questiion) ( @Html.DisplayFor(modelItem => item.Score))
                 </td>
             </tr>
             <tr>
                 <td>
-                    
+                    <input type="text" id="rb" class="getanswer" name="@Html.NameFor(modelItem => item.Answer)">
                     @*@Html.EditorFor(modelItem => item.Answer)*@
-                    @*<input type="hidden" id="topic" name="@Html.NameFor(modelItem => item.Topic)" class="topic" value="@Html.DisplayFor(modelItem => item.Topic)" />*@
+
                 </td>
             </tr>
             <tr>
@@ -49,9 +49,10 @@
 
     function displayResults() {
         document.getElementById("pickedAnswers").innerHTML = "";
-        var topics = document.getElementsByClassName('topic');
-        topic = topics[1].value;
-        /*alert(topic);*/
+        var topics=document.getElementById('exerciseId');
+        //var topics = document.getElementByClassName('topic');
+        var ExerciseId = exerciseId.value;
+        alert(ExerciseId);
         var results = document.getElementsByClassName('getanswer')
         var answers = [];
 
@@ -66,11 +67,11 @@
 
         // jQuery Ajax Post Request using $.ajax()
         $.ajax({
-            url: 'DoExercise',
+            url: 'WordExercise',
             type: 'POST',
             // passing JSON objects as comma(,) separated values
             data: {
-                topic,
+                ExerciseId,
                 answers
             },
             success: (response) => {

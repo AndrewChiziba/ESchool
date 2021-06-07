@@ -12,8 +12,7 @@ namespace ESchool.Models.WordExercise
         public int TotalScore { get; set; }
 
         public virtual List<Question> Questions { get; set; }
-
-        //  
+        public int ExerciseId { get; set; }
         public string questiion { get; set; }
         public string answer { get; set; }
     }
