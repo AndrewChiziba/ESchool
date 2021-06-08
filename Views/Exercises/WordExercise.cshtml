@@ -1,10 +1,12 @@
 ﻿@model ESchool.Models.WordExercise.ExerciseViewModel
 
 @{
-    ViewData["Title"] = "General Exercise";
+    ViewData["Title"] = "Упражнение";
 }
-
-<h2>Answer the following questions</h2>
+<h1>Упражнение</h1>
+<h4>Ответьте на следующие вопросы</h4>
+<h4>Тема: @Html.DisplayFor(model=>Model.Topic)</h4>
+<br />
 <input type="hidden" id="exerciseId" name="@Html.NameFor(modelItem => Model.ExerciseId);" class="exerciseId" value="@Html.DisplayFor(modelItem => Model.ExerciseId)" />
 <table class="table">
 
@@ -12,9 +14,7 @@
 
         @foreach (var item in Model.Questions)
         {
-
             <tr>
-
                 <td>
                     @Html.DisplayFor(modelItem => item.QuestionNumber) )  @Html.DisplayFor(modelItem => item.Questiion) ( @Html.DisplayFor(modelItem => item.Score))
                 </td>
@@ -22,8 +22,6 @@
             <tr>
                 <td>
                     <input type="text" id="rb" class="getanswer" name="@Html.NameFor(modelItem => item.Answer)">
-                    @*@Html.EditorFor(modelItem => item.Answer)*@
-
                 </td>
             </tr>
             <tr>
@@ -34,8 +32,8 @@
         }
     </tbody>
 </table>
-<button type="button" id="examButton" class="btn-success" onclick="displayResults()">Submit</button>
-<label id="pickedAnswers"></label>
+
+<button type="button" id="examButton" class="btn-success" onclick="getResults()">Submit</button>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -47,11 +45,11 @@
         });
     });
 
-    function displayResults() {
-        document.getElementById("pickedAnswers").innerHTML = "";
-        var topics=document.getElementById('exerciseId');
+    function getResults() {
+        
+        var exerId=document.getElementById('exerciseId');
         //var topics = document.getElementByClassName('topic');
-        var ExerciseId = exerciseId.value;
+        var ExerciseId = exerId.value;
         alert(ExerciseId);
         var results = document.getElementsByClassName('getanswer')
         var answers = [];
@@ -59,8 +57,7 @@
         for (i = 0; i < results.length; i++) {
 
             if (results[i].type == "text") {
-                answers.push(results[i].value);
-                document.getElementById("pickedAnswers").innerHTML += "Q " + results[i].name + ")" + "The selected answer is " + results[i].value + "<br>";
+                answers.push(results[i].value); 
             }
         }
         console.log(answers);

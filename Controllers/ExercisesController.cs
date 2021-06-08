@@ -87,48 +87,6 @@ namespace ESchool.Controllers
         }
         /*Custom Methods*/
 
-        //Edit Question
-        //GET
-        //public async Task<IActionResult> EditQuestions(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var exercise = await _context.Exercises.FindAsync(id);
-
-        //    List<Question> questionList = new List<Question>();
-        //    // you can replace this manual filling with data from database
-        //    questionList = _context.Questions.Where(question => question.Topic == exercise.Topic).ToList();
-
-        //    return View(questionList);
-        //}
-
-        //[HttpPost]
-        ////public ActionResult EditQuestions
-        //    public async Task<IActionResult> EditQuestions(int id, QuestionsEdit model)
-        //{
-        //    int TotalScore = 0;
-        //    if (model.Questions != null)
-        //    {
-        //        foreach (var item in model.Questions)
-        //        {
-        //            _context.Entry(item).State = EntityState.Modified;
-        //            _context.Entry(item).Property(x => x.Topic).IsModified = false;
-        //            _context.Entry(item).Property(x => x.QuestionNumber).IsModified = false;
-        //            TotalScore += item.Score;
-        //        }
-        //        var exercise = await _context.Exercises.FindAsync(id);
-        //        exercise.TotalScore = TotalScore;
-
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(model);
-        //}
-
-        //Do exercise
         //GET
         public async Task<IActionResult> WordExercise(int? id)
         {
@@ -176,15 +134,6 @@ namespace ESchool.Controllers
                         StudentScore += questionList[i].Score;//add score
                     }
 
-
-                    //if (item.Answer == exercise.Questions.FirstOrDefault(qId => qId.Id == item.Id).Answer)
-                    //{
-                    //    StudentScore += 1;
-                    //}
-                    //_context.Entry(item).State = EntityState.Modified;
-                    //_context.Entry(item).Property(x => x.Topic).IsModified = false;
-                    //_context.Entry(item).Property(x => x.Questiion).IsModified = false;
-
                 }
 
                 //get prev results
@@ -209,12 +158,64 @@ namespace ESchool.Controllers
                 await _context.SaveChangesAsync();
 
                 }
-
-
                 return RedirectToAction("Index");
+                //return ("Ваш балл " + StudentScore + "/" + TotalScore);
             }
             return Ok();
         }
+
+        //[HttpPost]
+        //public async Task<JsonResult> Word(int ExerciseId, List<string> answers)
+        //{
+        //    int TotalScore = 0;
+        //    int StudentScore = 0;
+        //    curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);// user's
+        //    var curr_student = _context.Students.First(id => id.UserId == curr_userId);
+
+        //    var exercise = _context.Exercises.FirstOrDefault(t => t.Id == ExerciseId);
+        //    TotalScore = exercise.TotalScore;
+
+        //    List<Question> questionList = _context.Questions.Where(id => id.ExerciseId == exercise.Id).ToList();
+        //    if (questionList != null)
+        //    {
+        //        //result calculation
+        //        for (int i = 0; i < questionList.Count; i++)
+        //        {
+        //            if (answers[i] == questionList[i].Answer)
+        //            {
+        //                StudentScore += questionList[i].Score;//add score
+        //            }
+
+        //        }
+
+        //        //get prev results
+        //        bool didExercise = false;
+        //        var prev_results = _context.Results.Where(id => id.StudentId == curr_student.Id).ToList();
+
+        //        foreach (var result in prev_results)
+        //        {
+        //            if (result.ExerciseId == ExerciseId)
+        //            {
+        //                didExercise = true;//tell user "already did exercise"
+        //            }
+
+        //        }
+
+        //        if (didExercise == false)
+        //        {
+        //            var newResult = new Result { ExerciseId = exercise.Id, Topic = exercise.Topic, StudentId = curr_student.Id, TotalScore = TotalScore, StudentScore = StudentScore };
+
+        //            await CreateResult(newResult);
+
+        //            await _context.SaveChangesAsync();
+
+        //        }
+        //        //return RedirectToAction("Index");
+        //        return Json(new { resultID= "Ваш балл " + StudentScore + "/" + TotalScore });
+        //    }
+        //    //return Ok();
+        //    return Json(new { resultID = "Ваш балл " + StudentScore + "/" + TotalScore });
+        //}
 
 
         ////GET
