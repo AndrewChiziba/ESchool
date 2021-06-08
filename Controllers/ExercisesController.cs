@@ -155,7 +155,7 @@ namespace ESchool.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> WordExercise(int ExerciseId, List<string> answers)
+        public async Task<IActionResult> WordExercise(int ExerciseId, List<string>answers)
         {
             int TotalScore = 0;
             int StudentScore = 0;
@@ -187,15 +187,27 @@ namespace ESchool.Controllers
 
                 }
 
-                //create result record
-                var prev_results = _context.Results.First(id=>id.StudentId==curr_student.Id && id.ExerciseId==ExerciseId );
-                if (prev_results == null)
+                //get prev results
+                bool didExercise = false;
+                var prev_results = _context.Results.Where(id=>id.StudentId==curr_student.Id).ToList();
+
+                foreach(var result in prev_results)
                 {
+                    if (result.ExerciseId == ExerciseId)
+                    {
+                        didExercise = true;//tell user "already did exercise"
+                    }
+
+                }
+
+                if (didExercise==false)
+                {            
                     var newResult = new Result { ExerciseId = exercise.Id, Topic = exercise.Topic, StudentId = curr_student.Id, TotalScore = TotalScore, StudentScore = StudentScore };
 
-                    //add result
-                    _context.Add(newResult);
-                    await _context.SaveChangesAsync();
+                await CreateResult(newResult);
+
+                await _context.SaveChangesAsync();
+
                 }
 
 
