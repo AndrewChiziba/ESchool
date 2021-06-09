@@ -1,0 +1,50 @@
+﻿@model ESchool.Models.TranslateExercise.TranslateQuestion
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>TranslateQuestion</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ExerciseId" class="control-label"></label>
+                <input asp-for="ExerciseId" class="form-control" />
+                <span asp-validation-for="ExerciseId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="QuestionNumber" class="control-label"></label>
+                <input asp-for="QuestionNumber" class="form-control" />
+                <span asp-validation-for="QuestionNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Questiion" class="control-label"></label>
+                <input asp-for="Questiion" class="form-control" />
+                <span asp-validation-for="Questiion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Answer" class="control-label"></label>
+                <input asp-for="Answer" class="form-control" />
+                <span asp-validation-for="Answer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Score" class="control-label"></label>
+                <input asp-for="Score" class="form-control" />
+                <span asp-validation-for="Score" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
