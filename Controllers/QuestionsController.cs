@@ -117,7 +117,7 @@ namespace ESchool.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, string returnUrl, [Bind("Id,QuestionNumber,Questiion,Answer,Score")] Question question)
+        public async Task<IActionResult> Edit(int id, string returnUrl, [Bind("Id,ExerciseId,QuestionNumber,Questiion,Answer,Score")] Question question)
         {
             if (id != question.Id)
             {

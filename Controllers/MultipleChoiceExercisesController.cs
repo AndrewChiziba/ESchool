@@ -108,7 +108,6 @@ namespace ESchool.Controllers
 
 
         [HttpPost]
-
         public async Task<IActionResult> MultiChoiceExercise(int ExerciseId, List<string> answers)
         {
             int TotalScore = 0;
@@ -175,6 +174,24 @@ namespace ESchool.Controllers
                 return View("Failed to create");
         }
 
+        //
+        public async Task<IActionResult> QuestionsOfExercise(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var mcexercise = await _context.MultipleChoiceExercises.FindAsync(id);
+            List<MultipleChoiceQuestion> mcquestionList = _context.MultipleChoiceQuestions.Where(mcq => mcq.ExerciseId == mcexercise.Id).ToList();
+
+            if (mcquestionList == null)
+            {
+                return NotFound();
+            }
+            return View(mcquestionList);
+            // return View(await _context.MultipleChoiceQuestions.ToListAsync());
+        }
 
         /*End of custom methods*/
 

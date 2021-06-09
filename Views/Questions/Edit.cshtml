@@ -14,6 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="ExerciseId" />
             <div class="form-group">
                 <label asp-for="QuestionNumber" class="control-label"></label>
                 <input asp-for="QuestionNumber" class="form-control" />

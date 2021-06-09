@@ -299,6 +299,24 @@ namespace ESchool.Controllers
                 return View("Failed to create");
         }
 
+        //
+        public async Task<IActionResult> QuestionsOfExercise(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var exercise = await _context.Exercises.FindAsync(id);
+            List<Question> questionList = _context.Questions.Where(mcq => mcq.ExerciseId == exercise.Id).ToList();
+
+            if (questionList == null)
+            {
+                return NotFound();
+            }
+            return View(questionList);
+            // return View(await _context.MultipleChoiceQuestions.ToListAsync());
+        }
 
         /*Custom Methods end*/
 

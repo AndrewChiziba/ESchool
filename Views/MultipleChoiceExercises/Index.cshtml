@@ -46,15 +46,16 @@
                 @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
                 {
 
-                    <td>
+            <td>
 
-                        @*<a asp-controller="Exercises" asp-action="TranslateExercise" asp-route-id="@item.Id"> Do Translate exercise</a>|*@
-                        <a asp-controller="MultipleChoiceQuestions" asp-action="Create" asp-route-id="@item.Id">Add Question</a> |
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit exercise</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @*<a asp-controller="Exercises" asp-action="TranslateExercise" asp-route-id="@item.Id"> Do Translate exercise</a>|*@
+                <a asp-controller="MultipleChoiceQuestions" asp-action="Create" asp-route-id="@item.Id">Add Question</a> |
+                <a asp-action="QuestionsOFExercise" asp-route-id="@item.Id">All Questions</a> |
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit exercise</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
 
-                    </td>
+            </td>
                 }
             </tr>
         }

@@ -115,7 +115,7 @@ namespace ESchool.Controllers
         // POST: MultipleChoiceQuestions/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, string returnUrl, [Bind("Id,Topic,QuestionNumber,Questiion,choiceA,choiceB,choiceC,choiceD,Answer,Score")] MultipleChoiceQuestion multipleChoiceQuestion)
+        public async Task<IActionResult> Edit(int id, string returnUrl, [Bind("Id,ExerciseId,QuestionNumber,Questiion,choiceA,choiceB,choiceC,choiceD,Answer,Score")] MultipleChoiceQuestion multipleChoiceQuestion)
         {
             if (id != multipleChoiceQuestion.Id)
             {
@@ -124,6 +124,7 @@ namespace ESchool.Controllers
 
             if (ModelState.IsValid)
             {
+               
                 try
                 {
                     _context.Update(multipleChoiceQuestion);
