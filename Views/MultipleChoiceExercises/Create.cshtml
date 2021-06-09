@@ -12,30 +12,32 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TeacherId" />
+            <input type="hidden" asp-for="CourseId" />
             <div class="form-group">
-                <label asp-for="Topic" class="control-label"></label>
+                <label asp-for="Topic" class="control-label">Тема Упражнения</label>
                 <input asp-for="Topic" class="form-control" />
                 <span asp-validation-for="Topic" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="NumberOfQuestions" class="control-label"></label>
                 <input asp-for="NumberOfQuestions" class="form-control" />
                 <span asp-validation-for="NumberOfQuestions" class="text-danger"></span>
-            </div>
-            @*<div class="form-group">
-                <label asp-for="TotalScore" class="control-label"></label>
-                <input asp-for="TotalScore" class="form-control" />
-                <span asp-validation-for="TotalScore" class="text-danger"></span>
             </div>*@
+            @*<div class="form-group">
+            <label asp-for="TotalScore" class="control-label"></label>
+            <input asp-for="TotalScore" class="form-control" />
+            <span asp-validation-for="TotalScore" class="text-danger"></span>
+        </div>*@
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Добавить Упражнение" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Назад</a>
 </div>
 
 @section Scripts {

@@ -8,12 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using ESchool.AppDbContext;
 using ESchool.Models.MultipleChoice;
 using ESchool.Models.ResultsRecord;
+using System.Security.Claims;
 
 namespace ESchool.Controllers
 {
     public class MultipleChoiceExercisesController : Controller
     {
         private readonly ESchoolDbContext _context;
+        string curr_userId;
 
         public MultipleChoiceExercisesController(ESchoolDbContext context)
         {
@@ -23,6 +25,9 @@ namespace ESchool.Controllers
         // GET: MultipleChoiceExercises
         public async Task<IActionResult> Index()
         {
+            curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //var curr_teacher = _context.Teachers.First(id => id.UserId == curr_userId);
+            //return View(await _context.Exercises.Where(id=>id.TeacherId==curr_teacher.Id).ToListAsync());
             return View(await _context.MultipleChoiceExercises.ToListAsync());
         }
 
@@ -47,13 +52,22 @@ namespace ESchool.Controllers
         // GET: MultipleChoiceExercises/Create
         public IActionResult Create()
         {
-            return View();
+            curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);// user's
+            var curr_teacher = _context.Teachers.First(id => id.UserId == curr_userId);
+            //timeTable.TeacherId = curr_teacher.Id;
+            MultipleChoiceExercise mcexercise = new MultipleChoiceExercise
+            {
+                TeacherId = curr_teacher.Id,
+                CourseId = curr_teacher.CourseId
+            };
+
+            return View(mcexercise);
         }
 
         // POST: MultipleChoiceExercises/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateOG([Bind("Id,Topic,NumberOfQuestions,TotalScore")] MultipleChoiceExercise multipleChoiceExercise)
+        public async Task<IActionResult> Create([Bind("Id,Topic,TeacherId,CourseId")] MultipleChoiceExercise multipleChoiceExercise)
         {
             if (ModelState.IsValid)
             {
@@ -64,123 +78,85 @@ namespace ESchool.Controllers
             return View(multipleChoiceExercise);
         }
 
-
-        //Question
-        public async Task<IActionResult> BlankMultipleChoiceQuestion(MultipleChoiceViewModel model, int qnumber)
-        {
-            var newMCQuestion = new MultipleChoiceQuestion { Topic = model.Topic, QuestionNumber = qnumber, Questiion = "", Answer = "", Score = 0, choiceA ="",choiceB="", choiceC="", choiceD="" };
-            if (newMCQuestion != null)
-            {
-                _context.Add(newMCQuestion);
-                await _context.SaveChangesAsync();
-            }
-            return Ok();
-        }
-
-        // POST: MultipleChoiceExercises/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( MultipleChoiceViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-
-                for (int i = 0; i < model.NumberOfQuestions; i++)
-                {
-                    await BlankMultipleChoiceQuestion(model, i + 1);
-                }
-
-                var listMCQuestions = _context.MultipleChoiceQuestions.Where(MCquestion => MCquestion.Topic == model.Topic).ToList();
-
-                var newMCExercise = new MultipleChoiceExercise { Topic = model.Topic, NumberOfQuestions = model.NumberOfQuestions, MultipleChoiceQuestions = listMCQuestions };
-
-                _context.Add(newMCExercise);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(model);
-        }
-
-        // GET: Exercises/Edit/5
-        public async Task<IActionResult> EditMultipleChoiceQuestion(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var MCExercise = await _context.MultipleChoiceExercises.FindAsync(id);
-            List<MultipleChoiceQuestion> MCQuestionList = _context.MultipleChoiceQuestions.Where(MCquestion => MCquestion.Topic == MCExercise.Topic).ToList();
-           
-            if (MCQuestionList == null)
-            {
-                return NotFound();
-            }
-            return View(MCQuestionList);
-        }
+       
 
         //GET
-        public async Task<IActionResult> DoMultipleChoiceExercise(int? id)
+        public async Task<IActionResult> MultiChoiceExercise(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var MCExercise = await _context.MultipleChoiceExercises.FindAsync(id);
-            List<MultipleChoiceQuestion> MCQuestionList = _context.MultipleChoiceQuestions.Where(MCquestion => MCquestion.Topic == MCExercise.Topic).ToList();
+            var mcexercise = await _context.MultipleChoiceExercises.FindAsync(id);
+            List<MultipleChoiceQuestion> MCQuestionList = _context.MultipleChoiceQuestions.Where(mcq => mcq.ExerciseId == mcexercise.Id).ToList();
+
+            MultipleChoiceViewModel mcexerciseVM = new MultipleChoiceViewModel
+            {
+                MultipleChoiceQuestions = MCQuestionList,
+                Topic = mcexercise.Topic,
+                ExerciseId = mcexercise.Id
+            };
 
             if (MCQuestionList == null)
             {
                 return NotFound();
             }
-            return View(MCQuestionList);
+            return View(mcexerciseVM);
             // return View(await _context.MultipleChoiceQuestions.ToListAsync());
         }
 
 
         [HttpPost]
 
-        public async Task<IActionResult> DoMultipleChoiceExercise(string topic, List<string> answers)
+        public async Task<IActionResult> MultiChoiceExercise(int ExerciseId, List<string> answers)
         {
-            var st = topic;
-            var ans = answers;
-
             int TotalScore = 0;
             int StudentScore = 0;
 
-            var MCExercise = _context.MultipleChoiceExercises.FirstOrDefault(t => t.Topic == topic);
-            TotalScore = MCExercise.TotalScore;
+            curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);// user's
+            var curr_student = _context.Students.First(id => id.UserId == curr_userId);
 
-            List<MultipleChoiceQuestion> MCQuestionList = _context.MultipleChoiceQuestions.Where(topic => topic.Topic == MCExercise.Topic).ToList();
-            if (MCQuestionList != null)
+            var mcexercise = _context.MultipleChoiceExercises.FirstOrDefault(t => t.Id == ExerciseId);
+            TotalScore = mcexercise.TotalScore;
+
+            List<MultipleChoiceQuestion> mcquestionList = _context.MultipleChoiceQuestions.Where(id => id.ExerciseId == mcexercise.Id).ToList();
+            if (mcquestionList != null)
             {
                 //result calculation
-                for (int i = 0; i < MCQuestionList.Count; i++)
+                for (int i = 0; i < mcquestionList.Count; i++)
                 {
-                    if (answers[i] == MCQuestionList[i].Answer)
+                    if (answers[i] == mcquestionList[i].Answer)
                     {
-                        StudentScore += MCQuestionList[i].Score;//add score
+                        StudentScore += mcquestionList[i].Score;//add score
                     }
-
-
-                    //if (item.Answer == exercise.Questions.FirstOrDefault(qId => qId.Id == item.Id).Answer)
-                    //{
-                    //    StudentScore += 1;
-                    //}
-                    // _context.Entry(item).State = EntityState.Modified;
-                    // _context.Entry(item).Property(x => x.Topic).IsModified = false;
-                    // _context.Entry(item).Property(x => x.Questiion).IsModified = false;
 
                 }
 
-                //create result record
-                var newResult = new Result { ExerciseId = MCExercise.Id, Topic = MCExercise.Topic, StudentId = 2, TotalScore = TotalScore, StudentScore = StudentScore };
+                //get prev results
+                bool didExercise = false;
+                var prev_results = _context.Results.Where(id => id.StudentId == curr_student.Id).ToList();
 
-                await CreateResult(newResult);
+                foreach (var result in prev_results)
+                {
+                    if (result.ExerciseId == ExerciseId)
+                    {
+                        didExercise = true;//tell user "already did exercise"
+                    }
 
-                await _context.SaveChangesAsync();
+                }
+
+                if (didExercise == false)
+                {
+                    //create result record
+                    var newResult = new Result { ExerciseId = mcexercise.Id, Topic = mcexercise.Topic, StudentId = 2, TotalScore = TotalScore, StudentScore = StudentScore };
+
+                    await CreateResult(newResult);
+
+                    await _context.SaveChangesAsync();
+                }
                 return RedirectToAction("Index");
+                //return ("Ваш балл " + StudentScore + "/" + TotalScore);
             }
             return Ok();
         }
@@ -250,16 +226,6 @@ namespace ESchool.Controllers
             }
             return View(multipleChoiceExercise);
         }
-
-
-
-
-
-
-
-
-
-
 
         // GET: MultipleChoiceExercises/Delete/5
         public async Task<IActionResult> Delete(int? id)

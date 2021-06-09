@@ -2,56 +2,64 @@
 @model IEnumerable<ESchool.Models.MultipleChoice.MultipleChoiceExercise>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Упражнения";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h1>Упражнения с множественным выбором</h1>
+@if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
+{
+    <p>
+        <a asp-action="Create">Добавить упражнение</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Topic)
+                @*@Html.DisplayNameFor(model => model.Topic)*@Тема
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NumberOfQuestions)
+                @*@Html.DisplayNameFor(model => model.NumberOfQuestions)*@Количество Вопросов
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TotalScore)
+                @*@Html.DisplayNameFor(model => model.TotalScore)*@Балл
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Topic)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumberOfQuestions)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalScore)
-            </td>
-            <td>
-                <a asp-action="DoMultipleChoiceExercise" asp-route-id="@item.Id"> Do exercise</a>
-            </td>
-            @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
-            {
-
+        @foreach (var item in Model)
+        {
+            <tr>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit Exercise</a> |
-                    <a asp-action="EditMultipleChoiceQuestion" asp-route-id="@item.Id">Edit exercises questions</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    @Html.DisplayFor(modelItem => item.Topic)
                 </td>
-            }
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfQuestions)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalScore)
+                </td>
+                <td>
+                    <a asp-controller="MultipleChoiceExercises" asp-action="MultiChoiceExercise" asp-route-id="@item.Id"> Do exercise</a>
+                </td>
+                @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
+                {
 
-        </tr>
-}
+                    <td>
+
+                        @*<a asp-controller="Exercises" asp-action="TranslateExercise" asp-route-id="@item.Id"> Do Translate exercise</a>|*@
+                        <a asp-controller="MultipleChoiceQuestions" asp-action="Create" asp-route-id="@item.Id">Add Question</a> |
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit exercise</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+
+                    </td>
+                }
+            </tr>
+        }
     </tbody>
 </table>
+<div>
+    <a asp-controller="Home" asp-action="Index">Назад</a>
+</div>

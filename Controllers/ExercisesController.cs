@@ -85,6 +85,7 @@ namespace ESchool.Controllers
             }
             return View(exercise);
         }
+
         /*Custom Methods*/
 
         //GET

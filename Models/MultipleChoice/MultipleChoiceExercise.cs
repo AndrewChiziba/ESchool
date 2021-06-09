@@ -14,6 +14,8 @@ namespace ESchool.Models.MultipleChoice
         public int NumberOfQuestions { get; set; }
         public int TotalScore { get; set; }
 
+        public int TeacherId { get; set; }
+        public int CourseId { get; set; }
         public virtual List<MultipleChoiceQuestion> MultipleChoiceQuestions { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace ESchool.Models.MultipleChoice
 
         public virtual List<MultipleChoiceQuestion> MultipleChoiceQuestions { get; set; }
 
-        //  
+        public int ExerciseId { get; set; }
         public string questiion { get; set; }
         public string answer { get; set; }
     }

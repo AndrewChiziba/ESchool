@@ -10,7 +10,8 @@ namespace ESchool.Models.MultipleChoice
     {
         public int Id { get; set; }
 
-        public string Topic { get; set; }
+
+        public int ExerciseId { get; set; }
 
         public int QuestionNumber { get; set; }
 

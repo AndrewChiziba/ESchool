@@ -46,21 +46,51 @@ namespace ESchool.Controllers
         }
 
         // GET: MultipleChoiceQuestions/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var mcexercise = _context.MultipleChoiceExercises.Find(id);
+            if (mcexercise == null)
+            {
+                return NotFound();
+            }
+            MultipleChoiceQuestion mcquestion = new MultipleChoiceQuestion
+            {
+                ExerciseId = mcexercise.Id
+            };
+            ViewBag.returnUrl = Request.Headers["Referer"].ToString();//get url of prev page
+            return View(mcquestion);
         }
 
         // POST: MultipleChoiceQuestions/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Topic,QuestionNumber,Questiion,choiceA,choiceB,choiceC,choiceD,Answer,Score")] MultipleChoiceQuestion multipleChoiceQuestion)
+        public async Task<IActionResult> Create(string returnUrl, [Bind("ExerciseId,Questiion,choiceA,choiceB,choiceC,choiceD,Answer,Score")] MultipleChoiceQuestion multipleChoiceQuestion)
         {
             if (ModelState.IsValid)
             {
+                var num_questions = _context.MultipleChoiceQuestions.Where(qid => qid.ExerciseId == multipleChoiceQuestion.ExerciseId).Count();
+
+                multipleChoiceQuestion.QuestionNumber = num_questions + 1;
+
                 _context.Add(multipleChoiceQuestion);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                var mcexercise = _context.MultipleChoiceExercises.FirstOrDefault(e => e.Id == multipleChoiceQuestion.ExerciseId);
+                var totalscore = _context.MultipleChoiceQuestions.Where(q => q.ExerciseId == multipleChoiceQuestion.ExerciseId).Sum(r => r.Score);
+
+                //Update exercise totalscore/num_questions
+                mcexercise.NumberOfQuestions = multipleChoiceQuestion.QuestionNumber;
+                mcexercise.TotalScore = totalscore;
+
+                _context.Update(mcexercise);
+                await _context.SaveChangesAsync();
+
+                return Redirect(returnUrl);//return to prev page
+                //return RedirectToAction(nameof(Index));
             }
             return View(multipleChoiceQuestion);
         }
@@ -99,9 +129,9 @@ namespace ESchool.Controllers
                     _context.Update(multipleChoiceQuestion);
                     await _context.SaveChangesAsync();
                     //Update exercise totalscore
-                    var totalscore = _context.MultipleChoiceQuestions.Where(mcq => mcq.Topic == multipleChoiceQuestion.Topic).Sum(r => r.Score);
+                    var totalscore = _context.MultipleChoiceQuestions.Where(mcq => mcq.ExerciseId == multipleChoiceQuestion.ExerciseId).Sum(r => r.Score);
 
-                    var mcExercise = _context.MultipleChoiceExercises.FirstOrDefault(mce => mce.Topic == multipleChoiceQuestion.Topic);
+                    var mcExercise = _context.MultipleChoiceExercises.FirstOrDefault(mce => mce.Id == multipleChoiceQuestion.ExerciseId);
                     mcExercise.TotalScore = totalscore;
 
                     _context.Update(mcExercise);
