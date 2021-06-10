@@ -54,7 +54,7 @@ namespace ESchool.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Surname,Name,MiddleName,UserID,CourseID")] Teacher teacher)
+        public async Task<IActionResult> Create([Bind("Id,Surname,Name,MiddleName,UserId,CourseId")] Teacher teacher)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace ESchool.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Surname,Name,MiddleName,UserID,CourseID")] Teacher teacher)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Surname,Name,MiddleName,UserId,CourseId")] Teacher teacher)
         {
             if (id != teacher.Id)
             {

@@ -119,33 +119,26 @@ namespace ESchool.Controllers
         }
 
         /*custom */
-        //public async Task<IActionResult> Results()
-        //{
-        //    curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    var curr_teacher = _context.Teachers.First(id => id.UserId == curr_userId);
+        public async Task<IActionResult> Results()
+        {
+            curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var curr_teacher = _context.Teachers.First(id => id.UserId == curr_userId);
 
-        //    var results = await _context.Results.ToListAsync();
+            var results = await _context.Results.ToListAsync();
 
-        //    List<ResultVM> resultsVM = new List<ResultVM>();
-        //    foreach (var result in results)
-        //    {
-        //        var student = _context.Students.First(id => id.Id == result.StudentId);
-        //        ResultVM vM = new ResultVM
-        //        {
-        //            Student = student.Surname + " " + student.Name + " " + student.MiddleName,
+            ResultVM resultVM = new ResultVM
+            {
+                Course = _context.Courses.First(d => d.Id == curr_teacher.CourseId).CourseName,
+                Results = results,
 
-        //        };
-        //    }
+            };
+            return View(resultVM);
+        }
 
+            /*custom end*/
 
-
-
-        //    return View(resultVM);
-        //}
-        /*custom end*/
-
-        // GET: Results/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+            // GET: Results/Delete/5
+            public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
