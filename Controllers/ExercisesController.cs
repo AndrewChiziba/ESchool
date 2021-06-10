@@ -31,13 +31,6 @@ namespace ESchool.Controllers
             return View(await _context.Exercises.ToListAsync());
         }
 
-        // GET: Exercises
-        public async Task<IActionResult> TranslateIndex()
-        {
-            return View(await _context.Exercises.Where(tp=>tp.Topic=="Translate").ToListAsync());
-        }
-
-
         // GET: Exercises/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -165,125 +158,7 @@ namespace ESchool.Controllers
             return Ok();
         }
 
-        //[HttpPost]
-        //public async Task<JsonResult> Word(int ExerciseId, List<string> answers)
-        //{
-        //    int TotalScore = 0;
-        //    int StudentScore = 0;
-        //    curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);// user's
-        //    var curr_student = _context.Students.First(id => id.UserId == curr_userId);
-
-        //    var exercise = _context.Exercises.FirstOrDefault(t => t.Id == ExerciseId);
-        //    TotalScore = exercise.TotalScore;
-
-        //    List<Question> questionList = _context.Questions.Where(id => id.ExerciseId == exercise.Id).ToList();
-        //    if (questionList != null)
-        //    {
-        //        //result calculation
-        //        for (int i = 0; i < questionList.Count; i++)
-        //        {
-        //            if (answers[i] == questionList[i].Answer)
-        //            {
-        //                StudentScore += questionList[i].Score;//add score
-        //            }
-
-        //        }
-
-        //        //get prev results
-        //        bool didExercise = false;
-        //        var prev_results = _context.Results.Where(id => id.StudentId == curr_student.Id).ToList();
-
-        //        foreach (var result in prev_results)
-        //        {
-        //            if (result.ExerciseId == ExerciseId)
-        //            {
-        //                didExercise = true;//tell user "already did exercise"
-        //            }
-
-        //        }
-
-        //        if (didExercise == false)
-        //        {
-        //            var newResult = new Result { ExerciseId = exercise.Id, Topic = exercise.Topic, StudentId = curr_student.Id, TotalScore = TotalScore, StudentScore = StudentScore };
-
-        //            await CreateResult(newResult);
-
-        //            await _context.SaveChangesAsync();
-
-        //        }
-        //        //return RedirectToAction("Index");
-        //        return Json(new { resultID= "Ваш балл " + StudentScore + "/" + TotalScore });
-        //    }
-        //    //return Ok();
-        //    return Json(new { resultID = "Ваш балл " + StudentScore + "/" + TotalScore });
-        //}
-
-
-        ////GET
-        //public async Task<IActionResult> TranslateExercise(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var exercise = await _context.Exercises.FindAsync(id);
-        //    List<Question> QuestionList = _context.Questions.Where(q => q.Topic == exercise.Topic).ToList();
-
-        //    if (QuestionList == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(QuestionList);
-        //    // return View(await _context.MultipleChoiceQuestions.ToListAsync());
-        //}
-
-        //[HttpPost]
-
-        //public async Task<IActionResult> TranslateExercise(string topic, List<string> answers)
-        //{
-        //    var st = topic;
-        //    var ans = answers;
-
-        //    int TotalScore = 0;
-        //    int StudentScore = 0;
-
-        //    var exercise = _context.Exercises.FirstOrDefault(t => t.Topic == topic);
-        //    TotalScore = exercise.TotalScore;
-
-        //    List<Question> questionList = _context.Questions.Where(topic => topic.Topic == exercise.Topic).ToList();
-        //    if (questionList != null)
-        //    {
-        //        //result calculation
-        //        for (int i = 0; i < questionList.Count; i++)
-        //        {
-        //            if (answers[i] == questionList[i].Answer)
-        //            {
-        //                StudentScore += questionList[i].Score;//add score
-        //            }
-
-
-        //            //if (item.Answer == exercise.Questions.FirstOrDefault(qId => qId.Id == item.Id).Answer)
-        //            //{
-        //            //    StudentScore += 1;
-        //            //}
-        //            // _context.Entry(item).State = EntityState.Modified;
-        //            // _context.Entry(item).Property(x => x.Topic).IsModified = false;
-        //            // _context.Entry(item).Property(x => x.Questiion).IsModified = false;
-
-        //        }
-
-        //        //create result record
-        //        var newResult = new Result { ExerciseId = exercise.Id, Topic = exercise.Topic, StudentId = 1, TotalScore = TotalScore, StudentScore = StudentScore };
-
-        //        await CreateResult(newResult);
-
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return Ok();
-        //}
-        ////
+       
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -339,7 +214,7 @@ namespace ESchool.Controllers
         // POST: Exercises/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Topic,NumberOfQuestions,TotalMark")] Exercise exercise)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Topic,NumberOfQuestions,TotalScore")] Exercise exercise)
         {
             if (id != exercise.Id)
             {

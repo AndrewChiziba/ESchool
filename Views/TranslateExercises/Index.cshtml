@@ -1,59 +1,66 @@
-﻿@model IEnumerable<ESchool.Models.TranslateExercise.TranslateExercise>
+﻿@using ESchool.Helpers
+@model IEnumerable<ESchool.Models.TranslateExercise.TranslateExercise>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Упражнения";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h1>Практическое упражнение по переводу</h1>
+@if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
+{
+    <p>
+        <a asp-action="Create">Добавить упражнение</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Topic)
+                @*@Html.DisplayNameFor(model => model.Topic)*@Тема
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NumberOfQuestions)
+                @*@Html.DisplayNameFor(model => model.NumberOfQuestions)*@Количество Вопросов
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TotalScore)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TeacherId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CourseId)
+                @*@Html.DisplayNameFor(model => model.TotalScore)*@Балл
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Topic)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumberOfQuestions)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalScore)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TeacherId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CourseId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Topic)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfQuestions)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalScore)
+                </td>
+                <td>
+                    <a asp-controller="TranslateExercises" asp-action="TransExercise" asp-route-id="@item.Id"> Do exercise</a>
+                </td>
+                @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
+                {
+
+                    <td>
+
+                        @*<a asp-controller="Exercises" asp-action="TranslateExercise" asp-route-id="@item.Id"> Do Translate exercise</a>|*@
+                        <a asp-controller="TranslateQuestions" asp-action="Create" asp-route-id="@item.Id">Add Question</a> |
+                        <a asp-action="QuestionsOFExercise" asp-route-id="@item.Id">All Questions</a> |
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit exercise</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+
+                    </td>
+                }
+            </tr>
+        }
     </tbody>
 </table>
+<div>
+    <a asp-controller="Home" asp-action="Index">Назад</a>
+</div>

@@ -44,23 +44,50 @@ namespace ESchool.Controllers
         }
 
         // GET: TranslateQuestions/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var texercise = _context.TranslateExercises.Find(id);
+            if (texercise == null)
+            {
+                return NotFound();
+            }
+            TranslateQuestion tquestion = new TranslateQuestion
+            {
+                ExerciseId = texercise.Id
+            };
+            ViewBag.returnUrl = Request.Headers["Referer"].ToString();//get url of prev page
+            return View(tquestion);
         }
 
         // POST: TranslateQuestions/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ExerciseId,QuestionNumber,Questiion,Answer,Score")] TranslateQuestion translateQuestion)
+        public async Task<IActionResult> Create(string returnUrl, [Bind("ExerciseId,Questiion,Answer,Score")] TranslateQuestion translateQuestion)
         {
             if (ModelState.IsValid)
             {
+                var num_questions = _context.TranslateQuestions.Where(qid => qid.ExerciseId == translateQuestion.ExerciseId).Count();
+                translateQuestion.QuestionNumber = num_questions + 1;
+
                 _context.Add(translateQuestion);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                var texercise = _context.TranslateExercises.FirstOrDefault(e => e.Id == translateQuestion.ExerciseId);
+                var totalscore = _context.TranslateQuestions.Where(q => q.ExerciseId == translateQuestion.ExerciseId).Sum(r => r.Score);
+
+                //Update exercise totalscore/num_questions
+                texercise.NumberOfQuestions = translateQuestion.QuestionNumber;
+                texercise.TotalScore = totalscore;
+                
+                _context.Update(texercise);
+                await _context.SaveChangesAsync();
+
+                return Redirect(returnUrl);
+                //return RedirectToAction(nameof(Index));
             }
             return View(translateQuestion);
         }
@@ -78,15 +105,14 @@ namespace ESchool.Controllers
             {
                 return NotFound();
             }
+            ViewBag.returnUrl = Request.Headers["Referer"].ToString();//url of prev page
             return View(translateQuestion);
         }
 
         // POST: TranslateQuestions/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ExerciseId,QuestionNumber,Questiion,Answer,Score")] TranslateQuestion translateQuestion)
+        public async Task<IActionResult> Edit(int id, string returnUrl, [Bind("Id,ExerciseId,QuestionNumber,Questiion,Answer,Score")] TranslateQuestion translateQuestion)
         {
             if (id != translateQuestion.Id)
             {
@@ -99,6 +125,15 @@ namespace ESchool.Controllers
                 {
                     _context.Update(translateQuestion);
                     await _context.SaveChangesAsync();
+                    //Update exercise totalscore
+                    var totalscore = _context.TranslateQuestions.Where(q => q.ExerciseId == translateQuestion.ExerciseId).Sum(r => r.Score);
+
+                    var texercise = _context.TranslateExercises.FirstOrDefault(e => e.Id == translateQuestion.ExerciseId);
+                    texercise.TotalScore = totalscore;
+
+                    _context.Update(texercise);
+                    await _context.SaveChangesAsync();
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -111,7 +146,8 @@ namespace ESchool.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return Redirect(returnUrl);
+                //return RedirectToAction(nameof(Index));
             }
             return View(translateQuestion);
         }

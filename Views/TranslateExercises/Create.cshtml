@@ -1,51 +1,33 @@
 ﻿@model ESchool.Models.TranslateExercise.TranslateExercise
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Создать Упражнение";
 }
 
-<h1>Create</h1>
+<h1>Упражнение</h1>
 
-<h4>TranslateExercise</h4>
+<h4>Создать Упражнение</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TeacherId" />
+            <input type="hidden" asp-for="CourseId" />
             <div class="form-group">
                 <label asp-for="Topic" class="control-label"></label>
                 <input asp-for="Topic" class="form-control" />
                 <span asp-validation-for="Topic" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="NumberOfQuestions" class="control-label"></label>
-                <input asp-for="NumberOfQuestions" class="form-control" />
-                <span asp-validation-for="NumberOfQuestions" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TotalScore" class="control-label"></label>
-                <input asp-for="TotalScore" class="form-control" />
-                <span asp-validation-for="TotalScore" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TeacherId" class="control-label"></label>
-                <input asp-for="TeacherId" class="form-control" />
-                <span asp-validation-for="TeacherId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CourseId" class="control-label"></label>
-                <input asp-for="CourseId" class="form-control" />
-                <span asp-validation-for="CourseId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Добавить Упражнение" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Назад</a>
 </div>
 
 @section Scripts {
