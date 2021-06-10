@@ -4,14 +4,16 @@ using ESchool.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ESchool.Migrations
 {
     [DbContext(typeof(ESchoolDbContext))]
-    partial class ESchoolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210610135852_coursesAdded")]
+    partial class coursesAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -188,9 +190,6 @@ namespace ESchool.Migrations
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
-
-                    b.Property<string>("StudentName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("StudentScore")
                         .HasColumnType("int");

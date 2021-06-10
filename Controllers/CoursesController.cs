@@ -6,28 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ESchool.AppDbContext;
-using ESchool.Models.ResultsRecord;
-using System.Security.Claims;
+using ESchool.Models.Course;
 
 namespace ESchool.Controllers
 {
-    public class ResultsController : Controller
+    public class CoursesController : Controller
     {
         private readonly ESchoolDbContext _context;
-        string curr_userId;
 
-        public ResultsController(ESchoolDbContext context)
+        public CoursesController(ESchoolDbContext context)
         {
             _context = context;
         }
 
-        // GET: Results
+        // GET: Courses
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Results.ToListAsync());
+            return View(await _context.Courses.ToListAsync());
         }
 
-        // GET: Results/Details/5
+        // GET: Courses/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,39 +33,39 @@ namespace ESchool.Controllers
                 return NotFound();
             }
 
-            var result = await _context.Results
+            var course = await _context.Courses
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (result == null)
+            if (course == null)
             {
                 return NotFound();
             }
 
-            return View(result);
+            return View(course);
         }
 
-        // GET: Results/Create
+        // GET: Courses/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Results/Create
+        // POST: Courses/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Topic,StudentId,ExerciseId,TotalScore,StudentScore")] Result result)
+        public async Task<IActionResult> Create([Bind("Id,CourseName,Description,TimeTableId,TeacherId")] Course course)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(result);
+                _context.Add(course);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(result);
+            return View(course);
         }
 
-        // GET: Results/Edit/5
+        // GET: Courses/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,22 +73,22 @@ namespace ESchool.Controllers
                 return NotFound();
             }
 
-            var result = await _context.Results.FindAsync(id);
-            if (result == null)
+            var course = await _context.Courses.FindAsync(id);
+            if (course == null)
             {
                 return NotFound();
             }
-            return View(result);
+            return View(course);
         }
 
-        // POST: Results/Edit/5
+        // POST: Courses/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Topic,StudentId,ExerciseId,TotalScore,StudentScore")] Result result)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CourseName,Description,TimeTableId,TeacherId")] Course course)
         {
-            if (id != result.Id)
+            if (id != course.Id)
             {
                 return NotFound();
             }
@@ -99,12 +97,12 @@ namespace ESchool.Controllers
             {
                 try
                 {
-                    _context.Update(result);
+                    _context.Update(course);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ResultExists(result.Id))
+                    if (!CourseExists(course.Id))
                     {
                         return NotFound();
                     }
@@ -115,36 +113,10 @@ namespace ESchool.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(result);
+            return View(course);
         }
 
-        /*custom */
-        //public async Task<IActionResult> Results()
-        //{
-        //    curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    var curr_teacher = _context.Teachers.First(id => id.UserId == curr_userId);
-
-        //    var results = await _context.Results.ToListAsync();
-
-        //    List<ResultVM> resultsVM = new List<ResultVM>();
-        //    foreach (var result in results)
-        //    {
-        //        var student = _context.Students.First(id => id.Id == result.StudentId);
-        //        ResultVM vM = new ResultVM
-        //        {
-        //            Student = student.Surname + " " + student.Name + " " + student.MiddleName,
-
-        //        };
-        //    }
-
-
-
-
-        //    return View(resultVM);
-        //}
-        /*custom end*/
-
-        // GET: Results/Delete/5
+        // GET: Courses/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -152,30 +124,30 @@ namespace ESchool.Controllers
                 return NotFound();
             }
 
-            var result = await _context.Results
+            var course = await _context.Courses
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (result == null)
+            if (course == null)
             {
                 return NotFound();
             }
 
-            return View(result);
+            return View(course);
         }
 
-        // POST: Results/Delete/5
+        // POST: Courses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var result = await _context.Results.FindAsync(id);
-            _context.Results.Remove(result);
+            var course = await _context.Courses.FindAsync(id);
+            _context.Courses.Remove(course);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ResultExists(int id)
+        private bool CourseExists(int id)
         {
-            return _context.Results.Any(e => e.Id == id);
+            return _context.Courses.Any(e => e.Id == id);
         }
     }
 }

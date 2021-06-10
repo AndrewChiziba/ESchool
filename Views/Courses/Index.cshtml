@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ESchool.Models.ResultsRecord.Result>
+﻿@model IEnumerable<ESchool.Models.Course.Course>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,19 +13,16 @@
     <thead>
         <tr>
             <th>
-                @*@Html.DisplayNameFor(model => model.Topic)*@Тема
+                @Html.DisplayNameFor(model => model.CourseName)
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.StudentId)*@Студент   
-            </th>
-            <!--<th>-->
-                @*@Html.DisplayNameFor(model => model.ExerciseId)*@<!--ID Упраженения
-            </th>-->
-            <th>
-                @*@Html.DisplayNameFor(model => model.TotalScore)*@Баллы
+                @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.StudentScore)*@
+                @Html.DisplayNameFor(model => model.TimeTableId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TeacherId)
             </th>
             <th></th>
         </tr>
@@ -34,17 +31,17 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Topic)
+                @Html.DisplayFor(modelItem => item.CourseName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StudentName)
+                @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StudentScore)/@Html.DisplayFor(modelItem => item.TotalScore)
+                @Html.DisplayFor(modelItem => item.TimeTableId)
             </td>
-            @*<td>
-               
-            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.TeacherId)
+            </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

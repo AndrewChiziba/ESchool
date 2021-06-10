@@ -148,7 +148,15 @@ namespace ESchool.Controllers
                 if (didExercise == false)
                 {
                     //create result record
-                    var newResult = new Result { ExerciseId = mcexercise.Id, Topic = mcexercise.Topic, StudentId = 2, TotalScore = TotalScore, StudentScore = StudentScore };
+                    var newResult = new Result 
+                    { 
+                        ExerciseId = mcexercise.Id, 
+                        Topic = mcexercise.Topic, 
+                        StudentId = curr_student.Id,
+                        StudentName = curr_student.Surname + " " + curr_student.Name + " " + curr_student.MiddleName,
+                        TotalScore = TotalScore, 
+                        StudentScore = StudentScore 
+                    };
 
                     await CreateResult(newResult);
 

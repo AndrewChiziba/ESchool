@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 
 namespace ESchool.Models.ResultsRecord
 {
-    public class Result
+    public class ResultVM
     {
-        public int Id { get; set; }
-
+        public string Student { get; set; }
+        public string Course { get; set; }
         public string Topic { get; set; }
-        public string StudentName { get; set; }
-        public int StudentId { get; set; }
-        public int ExerciseId { get; set; }
-        public int TotalScore { get; set; }
+        
         public int StudentScore { get; set; }
+        public int TotalScore { get; set; }
+        public virtual List<Result> Results { get; set; }
+
     }
 }

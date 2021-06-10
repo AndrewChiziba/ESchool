@@ -11,6 +11,7 @@ using ESchool.Models.MultipleChoice;
 using ESchool.Models.EduMaterial;
 using ESchool.Models.CourseTimeTable;
 using ESchool.Models.TranslateExercise;
+using ESchool.Models.Course;
 
 namespace ESchool.AppDbContext
 {
@@ -41,6 +42,8 @@ namespace ESchool.AppDbContext
 
         public DbSet<TranslateQuestion> TranslateQuestions { get; set; }
         public DbSet<TranslateExercise> TranslateExercises { get; set; }
+
+        public DbSet<Course> Courses { get; set; }
 
         public DbSet<PdfMaterial> PdfMaterials { get; set; }
         public DbSet<Result> Results { get; set; }
