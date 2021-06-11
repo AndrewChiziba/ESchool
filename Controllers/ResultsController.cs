@@ -124,7 +124,7 @@ namespace ESchool.Controllers
             curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var curr_teacher = _context.Teachers.First(id => id.UserId == curr_userId);
 
-            var results = await _context.Results.ToListAsync();
+            var results = await _context.Results.Where(d=>d.CourseId==curr_teacher.CourseId).ToListAsync();
 
             ResultVM resultVM = new ResultVM
             {
@@ -135,10 +135,27 @@ namespace ESchool.Controllers
             return View(resultVM);
         }
 
-            /*custom end*/
 
-            // GET: Results/Delete/5
-            public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> StudentResults()
+        {
+            curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var curr_student = _context.Students.First(id => id.UserId == curr_userId);
+
+            var results = await _context.Results.Where(d=>d.StudentId==curr_student.Id).ToListAsync();
+
+            ResultVM resultVM = new ResultVM
+            {
+                Course = _context.Courses.First(d => d.Id == curr_student.CourseId).CourseName,
+                Results = results,
+
+            };
+            return View(resultVM);
+        }
+
+        /*custom end*/
+
+        // GET: Results/Delete/5
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {

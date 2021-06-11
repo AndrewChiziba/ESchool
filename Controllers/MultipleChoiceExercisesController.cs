@@ -149,9 +149,10 @@ namespace ESchool.Controllers
                 {
                     //create result record
                     var newResult = new Result 
-                    { 
-                        ExerciseId = mcexercise.Id, 
-                        Topic = mcexercise.Topic, 
+                    {
+                        CourseId = _context.Courses.First(d=>d.Id==curr_student.CourseId).Id,
+                        Topic = mcexercise.Topic,
+                        ExerciseId = mcexercise.Id,  
                         StudentId = curr_student.Id,
                         StudentName = curr_student.Surname + " " + curr_student.Name + " " + curr_student.MiddleName,
                         TotalScore = TotalScore, 

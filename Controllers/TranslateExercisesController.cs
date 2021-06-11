@@ -148,13 +148,14 @@ namespace ESchool.Controllers
                 if (didExercise == false)
                 {
                     var newResult = new Result 
-                    { 
-                       ExerciseId = texercise.Id,
-                       Topic = texercise.Topic, 
-                       StudentId = curr_student.Id,
-                       StudentName = curr_student.Surname + " " + curr_student.Name + " " + curr_student.MiddleName,
-                       TotalScore = TotalScore, 
-                       StudentScore = StudentScore 
+                    {
+                        CourseId = _context.Courses.First(d => d.Id == curr_student.CourseId).Id,
+                        Topic = texercise.Topic,
+                        ExerciseId = texercise.Id,
+                        StudentId = curr_student.Id,
+                        StudentName = curr_student.Surname + " " + curr_student.Name + " " + curr_student.MiddleName,
+                        TotalScore = TotalScore,
+                        StudentScore = StudentScore
                     };
 
                     await CreateResult(newResult);

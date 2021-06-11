@@ -1,5 +1,61 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model ESchool.Models.ResultsRecord.ResultVM
+
 @{
+    ViewData["Title"] = "Результаты";
 }
+
+<h1>Результаты</h1>
+
+<h4>Курс: @Html.DisplayFor(model => Model.Course)</h4>
+<br />
+@*<p>
+        <a asp-action="Create">Create New</a>
+    </p>*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Topic)*@Тема
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.StudentId)*@Студент
+            </th>
+            <!--<th>-->
+            @*@Html.DisplayNameFor(model => model.ExerciseId)*@
+            <!--ID Упраженения
+            </th>-->
+            <th>
+                @*@Html.DisplayNameFor(model => model.TotalScore)*@Баллы
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.StudentScore)*@
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Results)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Topic)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentScore)/@Html.DisplayFor(modelItem => item.TotalScore)
+                </td>
+                @*<td>
+
+                    </td>*@
+                @*<td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>*@
+            </tr>
+        }
+    </tbody>
+</table>
+
