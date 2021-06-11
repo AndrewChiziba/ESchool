@@ -20,8 +20,8 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav mr-auto">
                         @*<li class="nav-item active">
-                            <a class="nav-link" asp-controller="Bike" asp-action="Index">Home <span class="sr-only">(current)</span></a>
-                        </li>*@
+                                <a class="nav-link" asp-controller="Bike" asp-action="Index">Home <span class="sr-only">(current)</span></a>
+                            </li>*@
                         @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
                         {
                             <li class="nav-item dropdown">
