@@ -1,22 +1,22 @@
 ﻿@model ESchool.Models.Account.LoginViewModel
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Авторизация";
 }
 
-<h1>Login</h1>
+<h1>Войти</h1>
 
 <div class="row">
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Email"></label>
+                <label asp-for="Email">Почта</label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="Password"></label>
+                <label asp-for="Password">Пароль</label>
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
@@ -24,11 +24,11 @@
             <div class="form-group">
                 <div class="custom-control custom-checkbox">
                     <input asp-for="RememberMe" type="checkbox" class="custom-control-input">
-                    <label class="custom-control-label" asp-for="RememberMe">@Html.DisplayNameFor(m => m.RememberMe)</label>
+                    <label class="custom-control-label" asp-for="RememberMe">Запомните меня?</label>
                 </div>
 
             </div>
-            <button type="submit" class="btn btn-primary">Login</button>
+            <button type="submit" class="btn btn-primary">Войти</button>
         </form>
 
     </div>

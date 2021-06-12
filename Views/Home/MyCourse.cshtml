@@ -1,53 +1,121 @@
 ﻿<br />
-<h2>Мой курс: Начальный курс</h2>
+
 <div class="row">
-    <div class="col-md-2">
-            <div class="card h-100">
-                <div class="card-header">
-                    Навигация
-                </div>
-                <ul class="list-group list-group-flush">
-
-                    <li class="list-group-item"><a asp-controller="Results" asp-action="StudentResults">Результаты</a></li>
-
-                    <li class="list-group-item"><a asp-controller="PdfMaterials" asp-action="Index">Учебные материалы</a></li>
-
-                    <li class="list-group-item"><a asp-controller="TimeTables" asp-action="Index">Расписание</a></li>
-                </ul>
+    <div id="column1" class="col-md-2">
+        <div class="card h-100">
+            <div class="card-header">
+                Навигация
             </div>
+            <ul class="list-group list-group-flush">
+
+                <li class="list-group-item"><a asp-controller="Results" asp-action="StudentResults">Результаты</a></li>
+
+                <li class="list-group-item"><a asp-controller="PdfMaterials" asp-action="Index">Учебные материалы</a></li>
+
+                <li class="list-group-item"><a asp-controller="TimeTables" asp-action="Index">Расписание</a></li>
+            </ul>
+        </div>
     </div>
-    <div class="col-md-10">
-        <div class="row gx-4 gx-lg-5">
+
+    <div id="column2" class="col-md-10">
+        <h3>Мой курс: Начальный курс</h3>
+
+        <div class="row">
             <div class="col-md-4 mb-5">
                 <div class="card h-100">
                     <div class="card-body">
-                        <h3 class="card-title">Грамматические упражнения</h3>
+                        <h5 class="card-title">Грамматические упражнения</h5>
                         <p class="card-text">@*Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.*@</p>
                     </div>
                     <div class="card-footer"><a class="btn btn-primary btn-sm" asp-area="" asp-controller="Exercises" asp-action="Index">Выполнять</a></div>
                 </div>
             </div>
+
             <div class="col-md-4 mb-5">
                 <div class="card h-100">
                     <div class="card-body">
-                        <h3 class="card-title">Упражнения с множественным выбором</h3>
-                        <p class="card-text">@*Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod tenetur ex natus at dolorem enim! Nesciunt pariatur voluptatem sunt quam eaque, vel, non in id dolore voluptates quos eligendi labore.*@</p>
+                        <h5 class="card-title">Упражнения с множественным выбором</h5>
+                        <p class="card-text">@*Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.*@</p>
                     </div>
                     <div class="card-footer"><a class="btn btn-primary btn-sm" asp-area="" asp-controller="MultipleChoiceExercises" asp-action="Index">Выполнять</a></div>
                 </div>
             </div>
+
             <div class="col-md-4 mb-5">
                 <div class="card h-100">
                     <div class="card-body">
-                        <h3 class="card-title">Упражнения по переводу</h3>
+                        <h5 class="card-title">Упражнения по переводу</h5>
                         <p class="card-text">@*Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.*@</p>
                     </div>
                     <div class="card-footer"><a class="btn btn-primary btn-sm" asp-area="" asp-controller="TranslateExercises" asp-action="Index">Выполнять</a></div>
                 </div>
+
             </div>
+
+            <!--<div class="row gx-4 gx-lg-5">
+                <div class="col-md-4 mb-5">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Грамматические упражнения</h5>
+                            <p class="card-text">-->
+            @*Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.*@
+            <!--</p>
+                        </div>
+                        <div class="card-footer"><a class="btn btn-primary btn-sm" asp-area="" asp-controller="Exercises" asp-action="Index">Выполнять</a></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row gx-4 gx-lg-5">
+                <div class="col-md-4 mb-5">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Упражнения с множественным выбором</h5>
+                            <p class="card-text">-->
+            @*Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.*@
+            <!--</p>
+                        </div>
+                        <div class="card-footer"><a class="btn btn-primary btn-sm" asp-area="" asp-controller="MultipleChoiceExercises" asp-action="Index">Выполнять</a></div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row gx-4 gx-lg-5">
+                <div class="col-md-4 mb-5">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Упражнения по переводу</h5>
+                            <p class="card-text">-->
+            @*Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.*@
+            <!--</p>
+                        </div>
+                        <div class="card-footer"><a class="btn btn-primary btn-sm" asp-area="" asp-controller="TranslateExercises" asp-action="Index">Выполнять</a></div>
+                    </div>
+                </div>
+            </div>-->
+
+
+
         </div>
+
     </div>
 </div>
+
+   
+
+
+    @*<div class="card h-100">
+            <div class="card-body">
+                <h3 class="card-title">Упражнения с множественным выбором</h3>
+                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod tenetur ex natus at dolorem enim! Nesciunt pariatur voluptatem sunt quam eaque, vel, non in id dolore voluptates quos eligendi labore.</p>
+            </div>
+            <div class="card-footer"><a class="btn btn-primary btn-sm" asp-area="" asp-controller="MultipleChoiceExercises" asp-action="Index">Выполнять</a></div>
+        </div>*@
+
+   
+    
 @*<div class="row gx-4 gx-lg-5">
     <div class="col-md-4 mb-5">
         <div class="card h-100">
