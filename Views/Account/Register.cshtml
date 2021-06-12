@@ -48,7 +48,7 @@
                     <label class="small" asp-for="IsTeacher">Преподаватель?</label>
                     <input asp-for="IsTeacher" class="form-control" />
                 </div>
-                }
+            }
 
             <button type="submit" class="btn btn-primary">Зарегистрироваться</button><br>
             <a asp-area="" asp-page="/Account/Login">Уже есть аккаунт?</a>
@@ -56,3 +56,6 @@
 
     </div>
 </div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

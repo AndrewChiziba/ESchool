@@ -75,7 +75,7 @@ namespace ESchool.Controllers
         {
 
             byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
-            string fileName = "myfile.pdf";
+            //string fileName = "myfile.pdf";
            // return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
 
             //For preview pdf and the download it use below code

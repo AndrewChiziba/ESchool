@@ -5,23 +5,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ESchool</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ESchool</a>
+                <a class="navbar-brand text-light" asp-area="" asp-controller="Home" asp-action="Index" >ЦИАЯ</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav mr-auto">
-                        @*<li class="nav-item active">
-                                <a class="nav-link" asp-controller="Bike" asp-action="Index">Home <span class="sr-only">(current)</span></a>
-                            </li>*@
                         @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
                         {
                             <li class="nav-item dropdown">
@@ -45,6 +42,8 @@
             </div>
         </nav>
     </header>
+ 
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
