@@ -42,9 +42,11 @@ a {
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
-    /* Hide captions */
-    .carousel-caption {
-        display: none;
+    .carousel-caption 
+    {
+    display: none;
+
+    }
     }
 
     /* Sticky footer styles
