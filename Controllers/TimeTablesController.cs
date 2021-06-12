@@ -22,6 +22,17 @@ namespace ESchool.Controllers
         }
 
         // GET: TimeTables
+        public async Task<IActionResult> IndexTEacher(TimeTableViewModel TimeTableVM)
+        {
+            //curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);// user's userId
+            curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var curr_teacher = _context.Teachers.First(id => id.UserId == curr_userId);
+            TimeTableVM.TeacherName = curr_teacher.Name + " " + curr_teacher.MiddleName;
+
+
+            TimeTableVM.TimeTables = await _context.TimeTables.ToListAsync();
+            return View(TimeTableVM);
+        }
         public async Task<IActionResult> Index(TimeTableViewModel TimeTableVM)
         {
             //curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);// user's userId
@@ -33,7 +44,6 @@ namespace ESchool.Controllers
             TimeTableVM.TimeTables = await _context.TimeTables.ToListAsync();
             return View(TimeTableVM);
         }
-
         // GET: TimeTables/Details/5
         public async Task<IActionResult> Details(int? id)
         {

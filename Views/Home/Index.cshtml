@@ -1,10 +1,10 @@
 ﻿@using ESchool.Helpers
-    @{
+@model IEnumerable<ESchool.Models.Course.Course>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<br>
-<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="padding:15px 4px 15px 4px">
     <ol class="carousel-indicators">
         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
         <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -58,34 +58,50 @@
     </a>
 </div>
 
+@*content start*@
+
 <div class="row">
-    <div class="col-md-4">
-
-        <a href="#"><h2>Начальный курс</h2></a>
-        <p class="font-size-1 text-secondary">
-            Это начальная ступень знаний английского языка. Если вы никогда раньше не изучали английский, то курс "Начальный курс" - это то, что вам нужно...
-        </p>
-    </div>
-    <div class="col-md-4">
-        <a href="#"><h2>Элементарный курс</h2></a>
-        <p>
-            Вы можете обучаться на этом курсе если вы
-            немного изучали английский язык прежде
-            и имеете какое-то представление о структуре языка, но вашим познаниям не хватает систематизированности.
-        </p>
-
-    </div>
-    <div class="col-md-4">
-        <a href="#"><h2>Средный курс</h2></a>
-        <p>
-            Этот курс - ваш билет в мир новых возможностей и открытий. Вам подходит средный курс если вы понимаете основную грамматику, но вам тяжело применять ее в спонтанной речи и можете поддержать беседу, но говорите кратко и отрывочно
-        </p>
-    </div>
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title">@Html.DisplayFor(modelItem => item.CourseName)</h2>
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-primary btn-sm" asp-controller="Courses" asp-action="Details" asp-route-id="@item.Id">Регистрировать</a>
+                </div>
+            </div>
+        </div>
+    }
+    @*<div class="col-md-4 mb-5">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title">Card Two</h2>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod tenetur ex natus at dolorem enim! Nesciunt pariatur voluptatem sunt quam eaque, vel, non in id dolore voluptates quos eligendi labore.</p>
+                </div>
+                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-5">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title">Card Three</h2>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
+                </div>
+                <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>
+            </div>
+        </div>*@
 </div>
+@*<div class="alert alert-dark" role="alert">
+    A simple dark alert—check it out!
+</div>*@
+@*content end*@
 
 @*TESTING ARENA*@
 <br />
-@if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher)||User.IsInRole(Roles.Student))
+@if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher) || User.IsInRole(Roles.Student))
 {
 
     <div class="row">
@@ -156,12 +172,12 @@
                     <b>Расписание</b>
                     <li><a asp-area="" asp-controller="TimeTables" asp-action="Index"> Course schedules(Timetable)</a></li>
                     <b>Результаты</b>
-                    <li><a  asp-controller="Results" asp-action="Index">Результать</a></li>
+                    <li><a asp-controller="Results" asp-action="Index">Результать</a></li>
 
                     @*<li><a asp-area="" asp-controller="TranslateWordExercises" asp-action="Index">Do translate word exercise</a></li>
-        <li><a asp-area="" asp-controller="MultipleChoiceQuestions" asp-action="Index">Create multiple choice questions</a></li>
-        <li><a asp-area="" asp-controller="TranslateWordQuestions" asp-action="Index">Create translate words exercise</a></li>
-        <li><a asp-area="" asp-controller="TranslateWordHelpers" asp-action="Index">HELP translate words exercise</a></li>*@
+                        <li><a asp-area="" asp-controller="MultipleChoiceQuestions" asp-action="Index">Create multiple choice questions</a></li>
+                        <li><a asp-area="" asp-controller="TranslateWordQuestions" asp-action="Index">Create translate words exercise</a></li>
+                        <li><a asp-area="" asp-controller="TranslateWordHelpers" asp-action="Index">HELP translate words exercise</a></li>*@
 
                 </ul>
             </div>

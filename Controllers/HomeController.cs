@@ -1,5 +1,7 @@
-﻿using ESchool.Models;
+﻿using ESchool.AppDbContext;
+using ESchool.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -12,16 +14,36 @@ namespace ESchool.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ESchoolDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ESchoolDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+
+        /*custom*/
+
+        public async Task<IActionResult> Index()
+        {
+            var homeCourses = await _context.Courses.Take(3).ToListAsync();
+            return View(homeCourses);
+        }
+
+        public IActionResult MyCourse()
         {
             return View();
         }
+
+
+
+        /*custom end*/
+
+
+
+
+
 
         public IActionResult Privacy()
         {
