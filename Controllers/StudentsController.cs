@@ -7,12 +7,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ESchool.AppDbContext;
 using ESchool.Models;
+using System.Security.Claims;
 
 namespace ESchool.Controllers
 {
     public class StudentsController : Controller
     {
         private readonly ESchoolDbContext _context;
+        string curr_userId;
 
         public StudentsController(ESchoolDbContext context)
         {
@@ -24,6 +26,20 @@ namespace ESchool.Controllers
         {
             return View(await _context.Students.ToListAsync());
         }
+
+        public async Task<IActionResult> StudentsInCourse()
+        {
+            curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var curr_teacher = _context.Teachers.First(id => id.UserId == curr_userId);
+            return View(await _context.Students.Where(d=>d.CourseId==curr_teacher.CourseId).ToListAsync());
+        }
+
+
+
+
+
+
+
 
         // GET: Students/Details/5
         public async Task<IActionResult> Details(int? id)

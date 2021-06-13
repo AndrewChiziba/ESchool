@@ -36,6 +36,10 @@ namespace ESchool.Controllers
             return View();
         }
 
+        public IActionResult CourseControl()
+        {
+            return View();
+        }
 
 
         /*custom end*/

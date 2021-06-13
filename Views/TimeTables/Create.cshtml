@@ -1,4 +1,4 @@
-﻿@model ESchool.Models.CourseTimeTable.TimeTable
+﻿@model ESchool.Models.CourseTimeTable.TimeTableViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -12,15 +12,18 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="CourseName" class="control-label">Название курса</label>
                 <input asp-for="CourseName" class="form-control" />
                 <span asp-validation-for="CourseName" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
-                @*<label asp-for="TeacherId" class="control-label"></label>
-                <input asp-for="TeacherId" class="form-control" />
-                <span asp-validation-for="TeacherId" class="text-danger"></span>*@
+                <label asp-for="CourseId" class="control-label">Курс</label>
+                <select class="form-control" asp-for="CourseId"
+                        asp-items="@(new SelectList(Model.CourseList,"Id","CourseName"))">
+                    <option></option>
+                </select>
+                <span asp-validation-for="CourseId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Добавить" class="btn btn-primary" />

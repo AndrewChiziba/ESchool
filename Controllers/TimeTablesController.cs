@@ -21,29 +21,38 @@ namespace ESchool.Controllers
             _context = context;
         }
 
+        // GET: Timetables
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.TimeTables.ToListAsync());
+        }
+
         // GET: TimeTables
-        public async Task<IActionResult> IndexTEacher(TimeTableViewModel TimeTableVM)
-        {
-            //curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);// user's userId
-            curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var curr_teacher = _context.Teachers.First(id => id.UserId == curr_userId);
-            TimeTableVM.TeacherName = curr_teacher.Name + " " + curr_teacher.MiddleName;
+        //public async Task<IActionResult> Index()
+        //{
+        //    var timeTable = await _context.TimeTables.ToListAsync();
+        //    TimeTableViewModel timeTableViewModel = new TimeTableViewModel
+        //    {
+
+        //    };
 
 
-            TimeTableVM.TimeTables = await _context.TimeTables.ToListAsync();
-            return View(TimeTableVM);
-        }
-        public async Task<IActionResult> Index(TimeTableViewModel TimeTableVM)
-        {
-            //curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);// user's userId
-            curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var curr_teacher = _context.Teachers.First(id => id.UserId == curr_userId);
-            TimeTableVM.TeacherName = curr_teacher.Name + " " + curr_teacher.MiddleName;
 
 
-            TimeTableVM.TimeTables = await _context.TimeTables.ToListAsync();
-            return View(TimeTableVM);
-        }
+        //    TimeTables = await _context.TimeTables.ToListAsync();
+        //    return View(TimeTableVM);
+        //}
+        //public async Task<IActionResult> Index(TimeTableViewModel TimeTableVM)
+        //{
+        //    //curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);// user's userId
+        //    curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    var curr_teacher = _context.Teachers.First(id => id.UserId == curr_userId);
+        //    TimeTableVM.TeacherName = curr_teacher.Name + " " + curr_teacher.MiddleName;
+
+
+        //    TimeTableVM.TimeTables = await _context.TimeTables.ToListAsync();
+        //    return View(TimeTableVM);
+        //}
         // GET: TimeTables/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -65,15 +74,29 @@ namespace ESchool.Controllers
         // GET: TimeTables/Create
         public IActionResult Create()
         {
-            var nd = curr_userId;
-            return View();
+            curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var curr_teacher = _context.Teachers.First(id => id.UserId == curr_userId);
+
+            var teachersCourses = _context.Courses.Where(d=>d.Id==curr_teacher.CourseId).ToList();
+            
+            if (teachersCourses == null)
+            {
+                return NotFound();
+            }
+
+            TimeTableViewModel timetableVM = new TimeTableViewModel
+            {
+                CourseList = teachersCourses
+                
+            };
+            return View(timetableVM); ;
         }
 
 
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CourseName,TeacherId")] TimeTable timeTable)
+        public async Task<IActionResult> Create([Bind("Id,CourseId")] TimeTable timeTable)
         {
             curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);// user's
 
@@ -93,33 +116,33 @@ namespace ESchool.Controllers
 
 
         // GET: TimeTables/Edit/5
-        public async Task<IActionResult> CheckTT(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> CheckTT(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var curr_teacher = _context.Teachers.First(id => id.UserId == curr_userId);
+        //    curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    var curr_teacher = _context.Teachers.First(id => id.UserId == curr_userId);
             
-            var tt = await _context.TimeTables.FindAsync(id);
-            tt.TTEntries = _context.TTEntries.Where(t => t.TimeTableId == tt.Id).ToList();
+        //    var tt = await _context.TimeTables.FindAsync(id);
+        //    tt.TTEntries = _context.TTEntries.Where(t => t.TimeTableId == tt.Id).ToList();
 
-            if (tt == null)
-            {
-                return NotFound();
-            }
-            TimeTableViewModel TTViewModel = new TimeTableViewModel
-            {
-                CourseName = tt.CourseName,
-                TeacherName = curr_teacher.Name + " " + curr_teacher.MiddleName, 
-                TTEntries = tt.TTEntries
-            };
+        //    if (tt == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    TimeTableViewModel TTViewModel = new TimeTableViewModel
+        //    {
+        //        CourseName = tt.CourseName,
+        //        TeacherName = curr_teacher.Name + " " + curr_teacher.MiddleName, 
+        //        TTEntries = tt.TTEntries
+        //    };
 
 
-            return View(TTViewModel);
-        }
+        //    return View(TTViewModel);
+        //}
 
         // POST: TimeTables/Edit/5
         [HttpPost]
@@ -156,27 +179,27 @@ namespace ESchool.Controllers
 
 
         // GET: TTEntries/Create
-        public IActionResult AddEntry(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public IActionResult AddEntry(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var tt =  _context.TimeTables.Find(id);
-            if (tt == null)
-            {
-                return NotFound();
-            }
-            AddEntryEditModel addEntryEditModel = new AddEntryEditModel
-            {
-                CourseName = tt.CourseName,
+        //    var tt =  _context.TimeTables.Find(id);
+        //    if (tt == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    AddEntryEditModel addEntryEditModel = new AddEntryEditModel
+        //    {
+        //        CourseName = tt.CourseName,
 
-                TimeTableId = tt.Id
-            };
+        //        TimeTableId = tt.Id
+        //    };
 
-            return View(addEntryEditModel);
-        }
+        //    return View(addEntryEditModel);
+        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -226,7 +249,7 @@ namespace ESchool.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CourseName,TeacherId")] TimeTable timeTable)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CourseId,TeacherId")] TimeTable timeTable)
         {
             if (id != timeTable.Id)
             {

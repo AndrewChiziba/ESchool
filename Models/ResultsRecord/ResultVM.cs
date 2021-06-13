@@ -13,6 +13,7 @@ namespace ESchool.Models.ResultsRecord
         
         public int StudentScore { get; set; }
         public int TotalScore { get; set; }
+        //public int FinalScore { get; set; }
         public virtual List<Result> Results { get; set; }
 
     }

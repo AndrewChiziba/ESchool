@@ -11,7 +11,7 @@
 <body>
     <header>
         @*<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark border-bottom box-shadow mb-3">*@
-        <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-dark">
             <div class="container">
                 <a class="navbar-brand text-light" asp-area="" asp-controller="Home" asp-action="Index">ЦИАЯ</a>
                
@@ -27,10 +27,11 @@
             </div>
         </nav>
     </header>
+    <br />
 
 
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="container pt-4">
+        <main role="main" class="pb-3 ">
             @RenderBody()
         </main>
     </div>

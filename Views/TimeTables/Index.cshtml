@@ -1,50 +1,41 @@
-﻿@model ESchool.Models.CourseTimeTable.TimeTableViewModel
+﻿@model IEnumerable<ESchool.Models.CourseTimeTable.TimeTable>
 
 @{
-    ViewData["Title"] = "Расписания";
+    ViewData["Title"] = "Index";
 }
 
-<h1>Расписания</h1>
+<h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Создать новое расписание</a>
+    <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @*@Html.DisplayNameFor(model => model.CourseName)*@Название курса
+                @Html.DisplayNameFor(model => model.CourseId)
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.TeacherId)*@Преподаватель
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.TeacherId)*@Редактировать
+                @Html.DisplayNameFor(model => model.TeacherId)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.TimeTables)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CourseName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.TeacherName)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                    <a asp-action="CheckTT" asp-route-id="@item.Id">Entries</a> |
-                    <a asp-action="AddEntry" asp-route-id="@item.Id">Add entry</a> |
-                </td>
-            </tr>
-        }
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TeacherId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
     </tbody>
 </table>
-<div>
-    <a asp-controller="Home" asp-action="Index">Назад</a>
-</div>

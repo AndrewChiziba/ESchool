@@ -152,6 +152,22 @@ namespace ESchool.Controllers
             return View(resultVM);
         }
 
+        public async Task<IActionResult> StudentResultsByCourse()
+        {
+            curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var curr_teacher = _context.Teachers.First(id => id.UserId == curr_userId);
+
+            var resultsByCourse = await _context.Results.Where(d => d.CourseId == curr_teacher.CourseId).ToListAsync();
+
+            ResultVM resultVM = new ResultVM
+            {
+                Course = _context.Courses.First(d => d.Id == curr_teacher.CourseId).CourseName,
+                Results = resultsByCourse,
+
+            };
+            return View(resultVM);
+        }
+
         /*custom end*/
 
         // GET: Results/Delete/5

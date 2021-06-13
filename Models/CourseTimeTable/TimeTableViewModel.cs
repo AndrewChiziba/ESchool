@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 namespace ESchool.Models.CourseTimeTable
 {
     [Keyless]
@@ -15,7 +14,9 @@ namespace ESchool.Models.CourseTimeTable
         public string CourseName { get; set; }
         public string TeacherName { get; set; }
 
+        public List<Course.Course> CourseList { get; set; }
         public List<TimeTable> TimeTables { get; set; }
+
         public List<TTEntry> TTEntries { set; get; }
         public TimeTableViewModel()
         {

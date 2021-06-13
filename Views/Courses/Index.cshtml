@@ -1,14 +1,17 @@
-﻿@model IEnumerable<ESchool.Models.Course.Course>
+﻿@using ESchool.Helpers
+@model IEnumerable<ESchool.Models.Course.Course>
 
 @{
     ViewData["Title"] = "Курсы";
 }
 
 <h1>Доступные курсы</h1>
-
-<p>
-    <a asp-action="Create">Новый курс</a>
-</p>
+@if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
+{
+    <p>
+        <a asp-action="Create">Новый курс</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -16,39 +19,39 @@
                 @*@Html.DisplayNameFor(model => model.CourseName)*@Название
             </th>
             @*<th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>*@
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>*@
             <th>
                 @*@Html.DisplayNameFor(model => model.TimeTableId)*@Длительность курса
             </th>
             @*<th>
-                @Html.DisplayNameFor(model => model.TeacherId)
-            </th>*@
+                    @Html.DisplayNameFor(model => model.TeacherId)
+                </th>*@
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model){
-    <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CourseName)
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseName)
 
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CourseStart) -  @Html.DisplayFor(modelItem => item.CourseEnd)
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Подробнее</a>
-                </td>
-                @*<td>
-                    @Html.DisplayFor(modelItem => item.TeacherId)
-                </td>*@
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseStart) -  @Html.DisplayFor(modelItem => item.CourseEnd)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Подробнее</a>
+            </td>
+            @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
+            {
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
-                     |
                     <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
                 </td>
-       </tr>
+             }
+            </tr>
 
         }
     </tbody>

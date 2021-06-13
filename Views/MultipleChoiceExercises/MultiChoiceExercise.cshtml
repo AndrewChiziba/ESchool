@@ -19,31 +19,50 @@
                     @Html.DisplayFor(modelItem => item.QuestionNumber) )  @Html.DisplayFor(modelItem => item.Questiion) ( @Html.DisplayFor(modelItem => item.Score))
                 </td>
             </tr>
+
             <tr>
                 <td>
                     <input type="radio" id="choiceA" name="@Html.DisplayFor(modelItem => item.Id)" class="rb" value="@Html.DisplayFor(modelItem => item.choiceA)" />
                     @Html.DisplayFor(modelItem => item.choiceA)
-
+                </td>
+                
+            </tr>
+            <tr>
+                <td>
                     <input type="radio" id="choiceB" name="@Html.DisplayFor(modelItem => item.Id)" class="rb" value="@Html.DisplayFor(modelItem => item.choiceB)" />
                     @Html.DisplayFor(modelItem => item.choiceB)
+                </td>
 
+               
+            </tr>
+            <tr>
+                <td>
                     <input type="radio" id="choiceC" name="@Html.DisplayFor(modelItem => item.Id)" class="rb" value="@Html.DisplayFor(modelItem => item.choiceC)" />
                     @Html.DisplayFor(modelItem => item.choiceC)
-
+                </td>
+                
+            </tr>
+            <tr>
+                <td>
                     <input type="radio" id="choiceD" name="@Html.DisplayFor(modelItem => item.Id)" class="rb" value="@Html.DisplayFor(modelItem => item.choiceD)" />
                     @Html.DisplayFor(modelItem => item.choiceD)
                 </td>
+              
             </tr>
+            
             <tr>
                 <td>
                     <label id="correctans" name="@Html.DisplayFor(modelItem => item.Id)" class="rb" style="display:none; color:forestgreen;"><b>@Html.DisplayFor(modelItem => item.Answer)</b></label>
                 </td>
             </tr>
-        }
-    </tbody>
+
+            }
+        </tbody>
 </table>
-<button type="button" id="examButton" class="btn-success" onclick="getResults()">Submit</button>
-@*<label id="pickedAnswers"></label>*@
+<button type="button" id="examButton" class="btn btn-primary" onclick="getResults()">Завершить</button>
+<form>
+    <a class="rb" style="display:none;" asp-controller="Results" asp-action="StudentResults">Результаты</a>
+</form>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -52,6 +71,7 @@
         $("#examButton").click(function () {
             $(".rb").show();
             $(".rb").attr("disabled", true);
+            $("#examButton").hide();
         });
     });
 
