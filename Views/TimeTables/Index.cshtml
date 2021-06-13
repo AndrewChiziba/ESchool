@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ESchool.Models.CourseTimeTable.TimeTable>
+﻿@using ESchool.Helpers
+@model IEnumerable<ESchool.Models.CourseTimeTable.TimeTable>
 
 @{
     ViewData["Title"] = "Index";
@@ -22,20 +23,31 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CourseId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TeacherId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TeacherId)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+@if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Student))
+{
+    <div>
+        <a asp-controller="Home" asp-action="MyCourse">Назад</a>
+    </div>
+}
+@if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
+{
+    <a asp-controller="Home" asp-action="CourseControl">Назад</a>
+}

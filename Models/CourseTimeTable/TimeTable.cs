@@ -9,7 +9,7 @@ namespace ESchool.Models.CourseTimeTable
     {
         public int Id { get; set; }
 
-        public string CourseId { get; set; }
+        public int CourseId { get; set; }
         public int TeacherId { get; set; }
 
         public List<TTEntry> TTEntries { get; set; }

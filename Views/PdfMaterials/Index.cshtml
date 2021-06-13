@@ -17,31 +17,42 @@
                 @Html.DisplayNameFor(model => model.Title)
             </th>
             @*<th>
-                @Html.DisplayNameFor(model => model.FilePath)
-            </th>*@
+                    @Html.DisplayNameFor(model => model.FilePath)
+                </th>*@
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                <a asp-action="DownloadFile" asp-route-filePath="@item.FilePath">Download</a>
-            </td>
-            @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
-            {
-
+        @foreach (var item in Model)
+        {
+            <tr>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    @Html.DisplayFor(modelItem => item.Title)
                 </td>
-            }
+                <td>
+                    <a asp-action="DownloadFile" asp-route-filePath="@item.FilePath">Download</a>
+                </td>
+                @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
+                {
 
-        </tr>
-}
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                }
+
+            </tr>
+        }
     </tbody>
 </table>
+@if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Student))
+{
+    <div>
+        <a asp-controller="Home" asp-action="MyCourse">Назад</a>
+    </div>
+}
+@if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
+{
+    <a asp-controller="Home" asp-action="CourseControl">Назад</a>
+}

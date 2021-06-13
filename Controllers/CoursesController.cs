@@ -71,10 +71,18 @@ namespace ESchool.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,CourseName,Description,TimeTableId,TeacherId,CourseStart,CourseEnd")] Course course)
         {
+            
             if (ModelState.IsValid)
             {
                 _context.Add(course);
                 await _context.SaveChangesAsync();
+
+                var teacher = _context.Teachers.First(d => d.Id == course.TeacherId);
+                teacher.CourseId = course.Id;
+
+                _context.Update(teacher);
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
             return View(course);
@@ -123,7 +131,7 @@ namespace ESchool.Controllers
                 await _context.SaveChangesAsync();
 
             }
-            return RedirectToAction("Index","HomeController");
+            return RedirectToAction("MyCourse","Home");
         }
 
         // GET: Courses/Edit/5

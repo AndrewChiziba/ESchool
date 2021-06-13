@@ -27,34 +27,40 @@ namespace ESchool.Controllers
             return View(await _context.TimeTables.ToListAsync());
         }
 
-        // GET: TimeTables
-        //public async Task<IActionResult> Index()
-        //{
-        //    var timeTable = await _context.TimeTables.ToListAsync();
-        //    TimeTableViewModel timeTableViewModel = new TimeTableViewModel
-        //    {
-
-        //    };
+        //GET: TimeTables
+        public async Task<IActionResult> ShowTimeTable()
+        {
+            var timeTable = await _context.TimeTables.ToListAsync();
 
 
+            //var teacher
+            TimeTableViewModel TimeTableVM = new TimeTableViewModel
+            {
+               
+
+            };
+
+        return View(TimeTableVM);
+    }
 
 
-        //    TimeTables = await _context.TimeTables.ToListAsync();
-        //    return View(TimeTableVM);
-        //}
-        //public async Task<IActionResult> Index(TimeTableViewModel TimeTableVM)
-        //{
-        //    //curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);// user's userId
-        //    curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    var curr_teacher = _context.Teachers.First(id => id.UserId == curr_userId);
-        //    TimeTableVM.TeacherName = curr_teacher.Name + " " + curr_teacher.MiddleName;
+
+            //    TimeTables = await _context.TimeTables.ToListAsync();
+            //    return View(TimeTableVM);
+            //}
+            //public async Task<IActionResult> Index(TimeTableViewModel TimeTableVM)
+            //{
+            //    //curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);// user's userId
+            //    curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //    var curr_teacher = _context.Teachers.First(id => id.UserId == curr_userId);
+            //    TimeTableVM.TeacherName = curr_teacher.Name + " " + curr_teacher.MiddleName;
 
 
-        //    TimeTableVM.TimeTables = await _context.TimeTables.ToListAsync();
-        //    return View(TimeTableVM);
-        //}
-        // GET: TimeTables/Details/5
-        public async Task<IActionResult> Details(int? id)
+            //    TimeTableVM.TimeTables = await _context.TimeTables.ToListAsync();
+            //    return View(TimeTableVM);
+            //}
+            // GET: TimeTables/Details/5
+            public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
