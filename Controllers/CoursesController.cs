@@ -46,7 +46,12 @@ namespace ESchool.Controllers
         // GET: Courses/Create
         public IActionResult Create()
         {
-            return View();
+            var teachers = _context.Teachers.ToList();
+            CourseVM courseVM = new CourseVM
+            {
+                Teachers=teachers,
+            };
+            return View(courseVM);
         }
 
         // POST: Courses/Create
@@ -54,7 +59,7 @@ namespace ESchool.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CourseName,Description,TimeTableId,TeacherId")] Course course)
+        public async Task<IActionResult> Create([Bind("Id,CourseName,Description,TimeTableId,TeacherId,CourseStart,CourseEnd")] Course course)
         {
             if (ModelState.IsValid)
             {
@@ -64,6 +69,71 @@ namespace ESchool.Controllers
             }
             return View(course);
         }
+
+        /*custom start*/
+        // GET: Courses/Edit/5
+        public async Task<IActionResult> EditCustom(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var curr_course = await _context.Courses.FindAsync(id);
+            var teachers = _context.Teachers.ToList();
+
+            if (curr_course == null)
+            {
+                return NotFound();
+            }
+
+            CourseVM courseVM = new CourseVM
+            {
+                Teachers = teachers,
+                course = curr_course
+
+            };
+
+            return View(courseVM);
+        }
+
+        // POST: Courses/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditCustom(/*int id, [Bind("Id,CourseName,Description,TimeTableId,TeacherId")]*/ CourseVM courseVM)
+        {
+            //var course = courseVM.course;
+            //if (course.Id == null)
+            //{
+            //    return NotFound();
+            //}
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(courseVM.course);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CourseExists(courseVM.course.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(courseVM.course);
+        }
+
+        /*custom end*/
 
         // GET: Courses/Edit/5
         public async Task<IActionResult> Edit(int? id)

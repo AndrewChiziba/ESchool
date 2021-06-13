@@ -1,46 +1,61 @@
-﻿@model ESchool.Models.Course.Course
+﻿@model ESchool.Models.Course.CourseVM
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Курс";
 }
 
-<h1>Create</h1>
+<h1>Курс</h1>
 
-<h4>Course</h4>
+<h4>Создать курс</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="CourseName" class="control-label"></label>
-                <input asp-for="CourseName" class="form-control" />
+                <label asp-for="CourseName" class="control-label">Название</label>
+                <input type="text" asp-for="CourseName" class="form-control" />
                 <span asp-validation-for="CourseName" class="text-danger"></span>
             </div>
+
+            @*<div class="form-group">
+            <label asp-for="TimeTableId" class="control-label"></label>
+            <input asp-for="TimeTableId" class="form-control" />
+            <span asp-validation-for="TimeTableId" class="text-danger"></span>
+        </div>*@
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <label asp-for="CourseStart" class="control-label">Начало курса</label>
+                <input asp-for="CourseStart" class="form-control" />
+                <span asp-validation-for="CourseStart" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TimeTableId" class="control-label"></label>
-                <input asp-for="TimeTableId" class="form-control" />
-                <span asp-validation-for="TimeTableId" class="text-danger"></span>
+                <label asp-for="CourseEnd" class="control-label">Окончания курса</label>
+                <input asp-for="CourseEnd" class="form-control" />
+                <span asp-validation-for="CourseEnd" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TeacherId" class="control-label"></label>
-                <input asp-for="TeacherId" class="form-control" />
+                <label asp-for="TeacherId" class="control-label">Преподаватель</label>
+                <select class="form-control" asp-for="TeacherId"
+                        asp-items="@(new SelectList(Model.Teachers,"Id","FullName"))">
+                    <option></option>
+                </select>
                 <span asp-validation-for="TeacherId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <label asp-for="Description" class="control-label">Описание</label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Добавить" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Назад</a>
 </div>
 
 @section Scripts {

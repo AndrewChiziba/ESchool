@@ -4,14 +4,16 @@ using ESchool.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ESchool.Migrations
 {
     [DbContext(typeof(ESchoolDbContext))]
-    partial class ESchoolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210612232914_AddedFullNameToUsers")]
+    partial class AddedFullNameToUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,14 +28,8 @@ namespace ESchool.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CourseEnd")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("CourseName")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CourseStart")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");

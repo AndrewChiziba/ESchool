@@ -58,6 +58,7 @@ namespace ESchool.Controllers
         {
             if (ModelState.IsValid)
             {
+                student.FullName = student.Surname + " " + student.Name + " " + student.MiddleName;
                 _context.Add(student);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

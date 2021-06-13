@@ -28,6 +28,8 @@ namespace ESchool.Models
         [Display(Name = "Отчество")]
         public string MiddleName { get; set; }
 
+        public string FullName { get; set; }
+
         //FKs
         //[ForeignKey("AspNetUsers")]
         public string UserId { get; set; }

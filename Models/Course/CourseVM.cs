@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace ESchool.Models.Course
 {
-    public class Course
+    public class CourseVM
     {
-        public int Id { get; set; }
         public string CourseName { get; set; }
         public string Description { get; set; }
 
@@ -16,5 +15,7 @@ namespace ESchool.Models.Course
 
         public int TimeTableId { get; set; }
         public int TeacherId { get; set; }
+        public virtual Course course { get; set; }
+        public virtual List<Teacher> Teachers { get; set; }
     }
 }
