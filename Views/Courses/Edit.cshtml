@@ -13,6 +13,7 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="TeacherId" />
             <div class="form-group">
                 <label asp-for="CourseName" class="control-label">Название</label>
                 <input type="text" asp-for="CourseName" class="form-control" />
@@ -34,14 +35,15 @@
                 <input asp-for="CourseEnd" class="form-control" />
                 <span asp-validation-for="CourseEnd" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="TeacherId" class="control-label">Преподаватель</label>
-                @*<select class="form-control" asp-for="TeacherId"
-                        asp-items="@(new SelectList(Model.Teachers,"Id","FullName"))">
-                    <option></option>
-                </select>*@
+                <input type="hidden" asp-for="TeacherId" />
+                <select class="form-control" asp-for="teacherid"
+                    asp-items="@(new selectlist(model.teachers,"id","fullname"))">
+                <option></option>
+            </select>
                 <span asp-validation-for="TeacherId" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <label asp-for="Description" class="control-label">Описание</label>
                 <textarea asp-for="Description" class="form-control"></textarea>

@@ -9,6 +9,7 @@ namespace ESchool.Models.Course
     {
         public string CourseName { get; set; }
         public string Description { get; set; }
+        public string TeacherName { get; set; }
 
         public DateTime CourseStart { get; set; }
         public DateTime CourseEnd { get; set; }

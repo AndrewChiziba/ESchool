@@ -1,0 +1,48 @@
+﻿@using ESchool.Helpers
+@model ESchool.Models.Course.Course
+
+@{
+    ViewData["Title"] = "Зарегистрироваться на курс";
+}
+
+<h1>Курс</h1>
+<form asp-controller="Courses" asp-action="RegisterToCourse">
+<input type="hidden" id="courseId" name="@Html.NameFor(modelItem => Model.Id);" class="courseId" value="@Html.DisplayFor(modelItem => Model.Id)" />
+<div>
+    <h4>Зарегистрироваться на курс</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Название
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CourseName)
+        </dd>
+        @*<dt class="col-sm-2">
+                О курсе
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayTextFor(model => model.Description)
+            </dd>*@
+        <dt class="col-sm-2">
+            Длительность курса
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CourseStart) - @Html.DisplayFor(model => model.CourseEnd)
+        </dd>
+
+    </dl>
+</div>
+<div class="form-group">
+    @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Student))
+    {
+        <input type="submit" value ="Подтверждать" class="btn btn-primary " />
+    }
+</div>
+
+</form>
+<div>
+    <a asp-controller="Courses" asp-action="Index">Отменить</a>
+</div>
+
+

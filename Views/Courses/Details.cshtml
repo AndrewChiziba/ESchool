@@ -1,42 +1,62 @@
-﻿@model ESchool.Models.Course.Course
+﻿@using ESchool.Helpers
+@model ESchool.Models.Course.CourseVM
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Детали курса";
 }
 
-<h1>Details</h1>
-
+<h1>Курс</h1>
+<input type="hidden" id="courseId" name="@Html.NameFor(modelItem => Model.course.Id);" class="courseId" value="@Html.DisplayFor(modelItem => Model.course.Id)" />
 <div>
-    <h4>Course</h4>
+    <h4>Детали</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CourseName)
+            Название
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CourseName)
+            @Html.DisplayFor(model => model.course.CourseName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
+           О курсе
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
+        <dd class="col-sm-10">
+            @Html.DisplayTextFor(model => model.course.Description)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TimeTableId)
+        <dt class="col-sm-2">
+            Длительность курса
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TimeTableId)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.course.CourseStart) - @Html.DisplayFor(model => model.course.CourseEnd)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TeacherId)
+        <dt class="col-sm-2">
+            Преподаватель
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TeacherId)
+            @Html.DisplayFor(model => model.TeacherName)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Student))
+    {
+        <a id ="regButton" class="btn btn-primary " asp-controller="Courses" asp-action="RegisterToCourse" asp-route-id="@Model.course.Id">Регистрировать</a>
+    }
+    @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
+    {
+        <a asp-controller="Courses" asp-action="Edit" asp-route-id="@Model.course.Id">Редактировать</a>
+    }
+    <br />
+    <br />
+    <a asp-action="Index">Назад</a>
 </div>
+
+@*<script>
+    $(document).ready(function () {
+        $("#regButton").click(function () {
+            $(".rb").show();
+            $(".rb").attr("disabled", true);
+        });
+    });
+
+</script>*@

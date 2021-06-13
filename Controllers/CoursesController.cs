@@ -7,12 +7,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ESchool.AppDbContext;
 using ESchool.Models.Course;
+using System.Security.Claims;
 
 namespace ESchool.Controllers
 {
     public class CoursesController : Controller
     {
         private readonly ESchoolDbContext _context;
+        string curr_userId;
 
         public CoursesController(ESchoolDbContext context)
         {
@@ -33,14 +35,22 @@ namespace ESchool.Controllers
                 return NotFound();
             }
 
-            var course = await _context.Courses
+            var curr_course = await _context.Courses
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (course == null)
+            var teacher_Name = _context.Teachers.First(d => d.Id == curr_course.TeacherId).FullName;
+
+            if (curr_course == null)
             {
                 return NotFound();
             }
 
-            return View(course);
+            var courseVM = new CourseVM
+            { 
+                course = curr_course,
+                TeacherName = teacher_Name
+            };
+
+            return View(courseVM);
         }
 
         // GET: Courses/Create
@@ -71,8 +81,70 @@ namespace ESchool.Controllers
         }
 
         /*custom start*/
+
         // GET: Courses/Edit/5
-        public async Task<IActionResult> EditCustom(int? id)
+        public async Task<IActionResult> RegisterToCourse(int? Id)
+        {
+            if (Id == null)
+            {
+                return NotFound();
+            }
+
+            var course = await _context.Courses.FindAsync(Id);
+            if (course == null)
+            {
+                return NotFound();
+            }
+            return View(course);
+        }
+
+        // POST: Courses/RegisterToCourse
+
+        [HttpPost]
+        public async Task<IActionResult> RegisterToCourse(int Id)
+        {
+            curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var curr_student = _context.Students.First(id => id.UserId == curr_userId);
+
+            var course = await _context.Courses.FindAsync(Id);
+            if (course == null)
+            {
+                return NotFound();
+            }
+
+            else 
+            {
+                if(curr_student.CourseId!= 0)
+                {
+                    return RedirectToAction("AlreadyRegistered", "Courses");
+                }
+                curr_student.CourseId = course.Id;
+                _context.Update(curr_student);
+                await _context.SaveChangesAsync();
+
+            }
+            return RedirectToAction("Index","HomeController");
+        }
+
+        // GET: Courses/Edit/5
+        public async Task<IActionResult> AlreadyRegistered(int? Id)
+        {
+            if (Id == null)
+            {
+                return NotFound();
+            }
+
+            var course = await _context.Courses.FindAsync(Id);
+            if (course == null)
+            {
+                return NotFound();
+            }
+            return View(course);
+        }
+
+
+            // GET: Courses/Edit/5
+            public async Task<IActionResult> EditCustom(int? id)
         {
             if (id == null)
             {
@@ -98,8 +170,6 @@ namespace ESchool.Controllers
         }
 
         // POST: Courses/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditCustom(/*int id, [Bind("Id,CourseName,Description,TimeTableId,TeacherId")]*/ CourseVM courseVM)
@@ -156,7 +226,7 @@ namespace ESchool.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CourseName,Description,TimeTableId,TeacherId")] Course course)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CourseName,Description,TimeTableId,TeacherId,CourseStart,CourseEnd")] Course course)
         {
             if (id != course.Id)
             {

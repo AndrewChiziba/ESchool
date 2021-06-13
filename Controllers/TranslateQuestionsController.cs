@@ -14,6 +14,7 @@ namespace ESchool.Controllers
     {
         private readonly ESchoolDbContext _context;
 
+
         public TranslateQuestionsController(ESchoolDbContext context)
         {
             _context = context;
