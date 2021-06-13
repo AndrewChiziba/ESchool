@@ -116,7 +116,7 @@ namespace ESchool.Controllers
             {
                 if(curr_student.CourseId!= 0)
                 {
-                    return RedirectToAction("AlreadyRegistered", "Courses");
+                    return RedirectToAction("AlreadyRegistered","Courses", new { Id = Id });
                 }
                 curr_student.CourseId = course.Id;
                 _context.Update(curr_student);
