@@ -133,10 +133,10 @@ namespace ESchool.Controllers
 
 
         // GET: TimeTables/Edit/5
-        public async Task<IActionResult> CheckTT()
+        public IActionResult CheckTT()
         {
             Teacher curr_teacher;
-            if(User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Student))
+            if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Student))
             {
                 curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var curr_student = _context.Students.First(d => d.UserId == curr_userId);
@@ -144,7 +144,7 @@ namespace ESchool.Controllers
                 curr_teacher = _context.Teachers.First(d => d.CourseId == curr_student.CourseId);//student and teacher share same course
             }
             else
-            {    
+            {
                 curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 curr_teacher = _context.Teachers.First(d => d.UserId == curr_userId);
             }
