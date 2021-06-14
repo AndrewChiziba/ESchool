@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\materials\essays\" />
     <Folder Include="wwwroot\materials\pdfs\" />
   </ItemGroup>
 

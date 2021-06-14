@@ -41,13 +41,8 @@
         }
     </tbody>
 </table>
-@if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Student))
-{
+
     <div>
-        <a asp-controller="Home" asp-action="MyCourse">Назад</a>
+        <a asp-controller="PdfMaterials" asp-action="Index">Назад</a>
     </div>
-}
-@if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
-{
-    <a asp-controller="Home" asp-action="CourseControl">Назад</a>
-}
+

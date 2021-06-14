@@ -1,5 +1,5 @@
 ﻿@using ESchool.Helpers
-@model IEnumerable<ESchool.Models.EduMaterial.PdfMaterial>
+@model IEnumerable<ESchool.Models.CreateEssay.EssayQuestion>
 
 @{
     ViewData["Title"] = "Учебные материалы";
@@ -9,18 +9,24 @@
 @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
 {
     <p>
-        <a asp-controller="PdfMaterials" asp-action="AddNewPdf">Добавить документы</a>
+        <a asp-controller="EssayQuestions" asp-action="AddEssayQuestion">Добавить документы</a>
     </p>
 }
 <table class="table">
     <thead>
         <tr>
             <th>
-                @*@Html.DisplayNameFor(model => model.Title)*@Учебный материал По теме
+                @*@Html.DisplayNameFor(model => model.Title)*@Essay
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Title)*@Score
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Title)*@Material
             </th>
             @*<th>
-                    @Html.DisplayNameFor(model => model.FilePath)
-                </th>*@
+            @Html.DisplayNameFor(model => model.FilePath)
+        </th>*@
             <th></th>
         </tr>
     </thead>
@@ -29,10 +35,13 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Title)
+                    @Html.DisplayFor(modelItem => item.QuestionNumber)) @Html.DisplayFor(modelItem => item.EssayDescription)
                 </td>
                 <td>
-                    <a asp-action="DownloadFile" asp-route-filePath="@item.FilePath">Скачать</a>
+                    @Html.DisplayFor(modelItem => item.Score)
+                </td>
+                <td>
+                    <a asp-controller="EssayQuestions" asp-action="DownloadEssay" asp-route-filePath="@item.sampleFilePath">Скачать</a>
                 </td>
                 @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
                 {

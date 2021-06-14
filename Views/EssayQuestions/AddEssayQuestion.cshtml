@@ -1,0 +1,54 @@
+﻿@model ESchool.Models.CreateEssay.EssayVM
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>EssayQuestion</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" enctype="multipart/form-data" asp-controller="EssayQuestions" asp-action="AddEssayQuestion">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*<div class="form-group">
+            <label asp-for="QuestionNumber" class="control-label"></label>
+            <input asp-for="QuestionNumber" class="form-control" />
+            <span asp-validation-for="QuestionNumber" class="text-danger"></span>
+        </div>*@
+            @*<div class="form-group">
+            <label asp-for="EssayDescription" class="control-label"></label>
+            <input asp-for="EssayDescription" class="form-control" />
+            <span asp-validation-for="EssayDescription" class="text-danger"></span>
+        </div>*@
+            <div class="form-group">
+                <label asp-for="EssayDescription" class="control-label">Описание</label>
+                <textarea asp-for="EssayDescription" class="form-control"></textarea>
+                <span asp-validation-for="EssayDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Score" class="control-label"></label>
+                <input asp-for="Score" class="form-control" />
+                <span asp-validation-for="Score" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="File" class="control-label">Файл</label>
+                <input type="file" asp-for="File" class="form-control" value="Выбирайте файлы" />
+                <span asp-validation-for="File" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Загрузить" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

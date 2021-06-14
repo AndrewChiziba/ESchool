@@ -1,35 +1,45 @@
-﻿@model ESchool.Models.EduMaterial.PdfMaterialViewModel
-<h1>Upload</h1>
+﻿@using ESchool.Helpers
+@model ESchool.Models.EduMaterial.PdfMaterialViewModel
+@{
+    ViewData["Title"] = "Загрузить документ";
+}
+<h1>Учебные материалы</h1>
 
-<h4>Educational material </h4>
+<h4>Добавить документы </h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form method="post" enctype="multipart/form-data" asp-controller="PdfMaterials" asp-action="AddNewPdf">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
+                <label asp-for="Title" class="control-label">Титул</label>
                 <input asp-for="Title" class="form-control" />
-                
+
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <p>Upload one or more files using this form:</p>
-                <label asp-for="File" class="control-label"></label>
-                <input type="file" asp-for="File" class="form-control" />
+                <label asp-for="File" class="control-label">Файл</label>
+                <input type="file" asp-for="File" class="form-control" value="Выбирайте файлы" />
                 <span asp-validation-for="File" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Загрузить" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Student))
+{
+    <div>
+        <a asp-controller="Home" asp-action="MyCourse">Назад</a>
+    </div>
+}
+@if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
+{
+    <a asp-controller="Home" asp-action="CourseControl">Назад</a>
+}
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

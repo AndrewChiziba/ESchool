@@ -12,6 +12,7 @@ using ESchool.Models.EduMaterial;
 using ESchool.Models.CourseTimeTable;
 using ESchool.Models.TranslateExercise;
 using ESchool.Models.Course;
+using ESchool.Models.CreateEssay;
 
 namespace ESchool.AppDbContext
 {
@@ -42,6 +43,9 @@ namespace ESchool.AppDbContext
 
         public DbSet<TranslateQuestion> TranslateQuestions { get; set; }
         public DbSet<TranslateExercise> TranslateExercises { get; set; }
+
+        public DbSet<EssayQuestion> EssayQuestions { get; set; }
+        public DbSet<EssayExercise> EssayExercises { get; set; }
 
         public DbSet<Course> Courses { get; set; }
 
