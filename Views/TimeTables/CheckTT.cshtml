@@ -1,4 +1,5 @@
-﻿@model ESchool.Models.CourseTimeTable.TimeTableViewModel
+﻿@using ESchool.Helpers
+@model ESchool.Models.CourseTimeTable.TimeTableViewModel
 
 @{
     ViewData["Title"] = "Занятии";
@@ -8,13 +9,21 @@
 
 <div>
     <div class="form-group">
-        <label name="Название курса:"> <b>Название курса:</b>@Html.DisplayFor(model => model.CourseName)</label>
- 
-    </div>
-    <div class="form-group">
-        <label name="Преподаватель:"> <b>Преподаватель: </b>@Html.DisplayFor(model => model.TeacherName)</label>
+        <div>
+            <label name="Название курса:"> <b>Название курса: </b>@Html.DisplayFor(model => model.CourseName)</label>
+        </div>
 
+        <div>
+            <label name="Преподаватель:"> <b>Преподаватель: </b>@Html.DisplayFor(model => model.TeacherName)</label>
+        </div>
+        @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
+        {
+            <div>
+                <a asp-controller="TimeTables" asp-action="AddEntry">Добавить занятие</a>
+            </div>
+            }
     </div>
+
 </div>
 
 
@@ -32,35 +41,48 @@
             <th>
                 Дата окончания
             </th>
-            <th>
-                Редактировать
-            </th>
+            @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
+            {
+                <th>
+                    Редактировать
+                </th>
+            }
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.TTEntries)
         {
-            <tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Activity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
+            {
                 <td>
-                    @Html.DisplayFor(modelItem => item.Activity)
+                    <a asp-controller="TTEntries" asp-action="Edit" asp-route-id="@item.Id">Редактировать</a> |
+                    <a asp-controller="TTEntries" asp-action="Details" asp-route-id="@item.Id">Подробнее</a> |
+                    <a asp-controller="TTEntries" asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndDate)
-                </td>
-                <td>
-                    <a asp-controller="TTEntries" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-controller="TTEntries" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-controller="TTEntries" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+            }
+        </tr>
         }
     </tbody>
 </table>
 
-<div>
-    <a asp-action="Index">Назад</a>
-</div>
+@if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Student))
+{
+    <div>
+        <a asp-controller="Home" asp-action="MyCourse">Назад</a>
+    </div>
+}
+@if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
+{
+    <a asp-controller="Home" asp-action="CourseControl">Назад</a>
+}

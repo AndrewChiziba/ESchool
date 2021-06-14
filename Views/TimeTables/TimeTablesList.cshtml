@@ -1,0 +1,61 @@
+﻿@using ESchool.Helpers
+@model ESchool.Models.CourseTimeTable.TimeTableViewModel
+
+@{
+    ViewData["Title"] = "Расписания";
+}
+
+<h1>Расписания курсов</h1>
+
+<p>
+    <a asp-action="Create">Добавить расписание</a>
+</p>
+<div class="row">
+    <div class="col-md-4">
+        <b>Расписание по курсе</b>
+    </div>
+    <div class="col-md-4">
+        <b>Преподаватель </b>
+    </div>
+</div>
+<hr />
+
+    <div class="row">
+        <div class="col-md-4">
+   
+        @foreach (var item in Model.CourseNames)
+        {
+            
+                    @Html.DisplayFor(modelItem => item)
+        
+        }
+        </div>
+    
+    <div class="col-md-4">
+   
+        @foreach (var item in Model.TeachersNames)
+        {
+           
+                    @Html.DisplayFor(modelItem => item)
+            
+        }
+  
+    </div>
+    <div class="col-md-4">
+        @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
+        {
+            <a asp-controller="TimeTables" asp-action="AddEntry">Добавить занятие</a>
+        }
+    </div>
+    </div>
+
+@if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Student))
+{
+    <div>
+        <a asp-controller="Home" asp-action="MyCourse">Назад</a>
+    </div>
+}
+@if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
+{
+    <a asp-controller="Home" asp-action="CourseControl">Назад</a>
+}

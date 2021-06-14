@@ -7,7 +7,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ESchool.AppDbContext;
 using ESchool.Models.CourseTimeTable;
+using ESchool.Models.Course;
+using ESchool.Models;
 using System.Security.Claims;
+using ESchool.Helpers;
 
 namespace ESchool.Controllers
 {
@@ -28,16 +31,24 @@ namespace ESchool.Controllers
         }
 
         //GET: TimeTables
-        public async Task<IActionResult> ShowTimeTable()
+        public async Task<IActionResult> TimeTablesList()
         {
             var timeTable = await _context.TimeTables.ToListAsync();
 
+            List<string> teachers = new List<string>();
+            List<string> courses = new List<string>();
 
-            //var teacher
-            TimeTableViewModel TimeTableVM = new TimeTableViewModel
+
+            foreach (var item in timeTable)
             {
-               
-
+                teachers.Add(_context.Teachers.First(d=>d.CourseId== item.CourseId).FullName);
+                courses.Add(_context.Courses.First(d => d.Id == item.CourseId).CourseName);
+            }
+        //var teacher
+        TimeTableViewModel TimeTableVM = new TimeTableViewModel
+            {
+                CourseNames = courses,
+                TeachersNames = teachers
             };
 
         return View(TimeTableVM);
@@ -122,90 +133,101 @@ namespace ESchool.Controllers
 
 
         // GET: TimeTables/Edit/5
-        //public async Task<IActionResult> CheckTT(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        public async Task<IActionResult> CheckTT()
+        {
+            Teacher curr_teacher;
+            if(User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Student))
+            {
+                curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var curr_student = _context.Students.First(d => d.UserId == curr_userId);
 
-        //    curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    var curr_teacher = _context.Teachers.First(id => id.UserId == curr_userId);
-            
-        //    var tt = await _context.TimeTables.FindAsync(id);
-        //    tt.TTEntries = _context.TTEntries.Where(t => t.TimeTableId == tt.Id).ToList();
-
-        //    if (tt == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    TimeTableViewModel TTViewModel = new TimeTableViewModel
-        //    {
-        //        CourseName = tt.CourseName,
-        //        TeacherName = curr_teacher.Name + " " + curr_teacher.MiddleName, 
-        //        TTEntries = tt.TTEntries
-        //    };
+                curr_teacher = _context.Teachers.First(d => d.CourseId == curr_student.CourseId);//student and teacher share same course
+            }
+            else
+            {    
+                curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                curr_teacher = _context.Teachers.First(d => d.UserId == curr_userId);
+            }
 
 
-        //    return View(TTViewModel);
-        //}
+            var tt = _context.TimeTables.First(d => d.CourseId == curr_teacher.CourseId);
+            tt.TTEntries = _context.TTEntries.Where(t => t.TimeTableId == tt.Id).ToList();
+
+            if (tt == null)
+            {
+                return NotFound();
+            }
+            TimeTableViewModel TTViewModel = new TimeTableViewModel
+            {
+                CourseName = _context.Courses.First(d => d.Id == curr_teacher.CourseId).CourseName,
+                TeacherName = curr_teacher.Name + " " + curr_teacher.MiddleName,
+                TTEntries = tt.TTEntries
+            };
+
+
+            return View(TTViewModel);
+        }
 
         // POST: TimeTables/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckTT(int id, [Bind("Id,CourseName,TeacherId")] TimeTable timeTable)
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> CheckTT(int id, [Bind("Id,CourseName,TeacherId")] TimeTable timeTable)
+        //{
+        //    if (id != timeTable.Id)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(timeTable);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!TimeTableExists(timeTable.Id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(timeTable);
+        //}
+
+
+        // GET: TTEntries/Create
+        public IActionResult AddEntry()
         {
-            if (id != timeTable.Id)
+            curr_userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var curr_teacher = _context.Teachers.First(id => id.UserId == curr_userId);
+            if (curr_teacher == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            var tt = _context.Courses.First(d => d.Id == curr_teacher.CourseId);
+            var timeTableId = _context.TimeTables.First(d => d.CourseId == curr_teacher.CourseId).Id;
+            //use courseId from teaacher to find our timetableId in timetables
+            if (tt == null)
             {
-                try
-                {
-                    _context.Update(timeTable);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TimeTableExists(timeTable.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
-            return View(timeTable);
+            AddEntryEditModel addEntryEditModel = new AddEntryEditModel
+            {
+                CourseName = tt.CourseName,
+
+                TimeTableId = timeTableId
+            };
+
+            return View(addEntryEditModel);
         }
-
-
-        // GET: TTEntries/Create
-        //public IActionResult AddEntry(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var tt =  _context.TimeTables.Find(id);
-        //    if (tt == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    AddEntryEditModel addEntryEditModel = new AddEntryEditModel
-        //    {
-        //        CourseName = tt.CourseName,
-
-        //        TimeTableId = tt.Id
-        //    };
-
-        //    return View(addEntryEditModel);
-        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -226,7 +248,7 @@ namespace ESchool.Controllers
                 await _context.SaveChangesAsync();
             //    return RedirectToAction(nameof(Index));
             //}
-            return View(addEntryEditModel);
+            return RedirectToAction("CheckTT", "TimeTables");
         }
 
 
