@@ -40,7 +40,7 @@
 <div>
     @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Student))
     {
-        <a id ="regButton" class="btn btn-primary " asp-controller="Courses" asp-action="RegisterToCourse" asp-route-id="@Model.course.Id">Регистрировать</a>
+        <a id ="regButton" class="btn btn-primary " asp-controller="Courses" asp-action="RegisterToCourse" asp-route-id="@Model.course.Id">Записаться</a>
     }
     @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
     {

@@ -4,8 +4,8 @@
     ViewData["Title"] = "Упражнение";
 }
 <h1>Упражнение</h1>
-<h4>Ответьте на следующие вопросы</h4>
-<h4>Тема: @Html.DisplayFor(model=>Model.Topic)</h4>
+<h4>Ответьте на следующие вопросы по теме «@Html.DisplayFor(model => Model.Topic)». </h4>
+@*<h4>Тема: @Html.DisplayFor(model=>Model.Topic)</h4>*@
 <br />
 <input type="hidden" id="exerciseId" name="@Html.NameFor(modelItem => Model.ExerciseId);" class="exerciseId" value="@Html.DisplayFor(modelItem => Model.ExerciseId)" />
 <table class="table">

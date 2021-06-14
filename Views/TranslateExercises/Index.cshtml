@@ -41,7 +41,7 @@
                     @Html.DisplayFor(modelItem => item.TotalScore)
                 </td>
                 <td>
-                    <a asp-controller="TranslateExercises" asp-action="TransExercise" asp-route-id="@item.Id"> Выполнять</a>
+                    <a asp-controller="TranslateExercises" asp-action="TransExercise" asp-route-id="@item.Id"> Выполнить упражнение</a>
                 </td>
                 @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
                 {
