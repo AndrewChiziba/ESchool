@@ -22,7 +22,7 @@ namespace ESchool.Controllers
         // GET: Teachers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Teachers.ToListAsync());
+            return View("Index", await _context.Teachers.ToListAsync());
         }
 
         // GET: Teachers/Details/5

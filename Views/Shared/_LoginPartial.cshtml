@@ -19,12 +19,15 @@
                 {
                     <a class="dropdown-item" asp-controller="Home" asp-action="CourseControl"> Курс</a>
                 }
-                <a class="dropdown-item" asp-controller="Questions" asp-action="Index">Личный кабинет</a>
+                @*<a class="dropdown-item" asp-controller="Questions" asp-action="Index">Личный кабинет</a>*@
                 <a class="dropdown-item" asp-controller="PdfMaterials" asp-action="Index">Файлы</a>
-                <a class="dropdown-item" asp-controller="TimeTables" asp-action="Index">Расписание</a>
-                <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Register">Добавить преподаватель</a>
-                <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout">Выход</a>
-            </div>
+                @*<a class="dropdown-item" asp-controller="TimeTables" asp-action="Index">Расписание</a>*@
+                @if (User.IsInRole(Roles.Admin))
+                {
+                    <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Register">Добавить преподаватель</a>
+                    }
+                    <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout">Выход</a>
+                </div>
         </li>
     }
     else

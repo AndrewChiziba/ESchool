@@ -30,32 +30,35 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Topic)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NumberOfQuestions)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TotalScore)
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Topic)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfQuestions)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalScore)
+            </td>
+            @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Student))
+            {
                 <td>
                     <a asp-controller="Exercises" asp-action="WordExercise" asp-route-id="@item.Id"> Выполнить упражнение</a>
                 </td>
-                @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
-                {
+}
+            @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Teacher))
+            {
 
-                    <td>
-                        <a asp-controller="Questions" asp-action="Create" asp-route-id="@item.Id">Добавить вопрос</a> |
-                        <a asp-action="QuestionsOFExercise" asp-route-id="@item.Id">Список вопросов</a> |
-                        <a asp-action="Edit" asp-route-id="@item.Id"> Редактировать упражнение</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Подробнее</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+                <td>
+                    <a asp-controller="Questions" asp-action="Create" asp-route-id="@item.Id">Добавить вопрос</a> |
+                    <a asp-action="QuestionsOFExercise" asp-route-id="@item.Id">Список вопросов</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id"> Редактировать упражнение</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Подробнее</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
 
-                    </td>
-                }
-            </tr>
+                </td>
+            }
+        </tr>
         }
     </tbody>
 </table>

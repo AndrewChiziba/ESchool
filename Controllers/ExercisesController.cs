@@ -9,9 +9,12 @@ using ESchool.AppDbContext;
 using ESchool.Models.WordExercise;
 using ESchool.Models.ResultsRecord;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using ESchool.Helpers;
 
 namespace ESchool.Controllers
 {
+    [Authorize]
     public class ExercisesController : Controller
     {
         private readonly ESchoolDbContext _context;
@@ -49,6 +52,7 @@ namespace ESchool.Controllers
             return View(exercise);
         }
 
+        [Authorize(Roles = Roles.Admin + "," + Roles.Teacher)]
         // GET: Exercises/Create
         public IActionResult Create()
         {
@@ -64,8 +68,9 @@ namespace ESchool.Controllers
             return View(exercise);
         }
 
+        [Authorize(Roles = Roles.Admin + "," + Roles.Teacher)]
         // POST: Exercises/Create
-       
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Topic,TeacherId,CourseId")] Exercise exercise)

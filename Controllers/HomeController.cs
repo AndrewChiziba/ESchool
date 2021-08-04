@@ -28,6 +28,7 @@ namespace ESchool.Controllers
         public async Task<IActionResult> Index()
         {
             var homeCourses = await _context.Courses.Take(3).ToListAsync();
+
             return View(homeCourses);
         }
 
@@ -36,9 +37,10 @@ namespace ESchool.Controllers
             return View();
         }
 
-        public IActionResult CourseControl()
+        public async Task<IActionResult> CourseControl()
         {
-            return View();
+            var CourseTitle = await _context.Courses.FindAsync(1);
+            return View(CourseTitle);
         }
 
 
